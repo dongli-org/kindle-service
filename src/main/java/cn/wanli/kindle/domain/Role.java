@@ -14,7 +14,7 @@ public class Role implements Serializable {
 
     @Id
     @Column(name = "role_id")
-    private Long id;
+    private String id;
 
     @Column(name = "role_name")
     private String name;
@@ -22,11 +22,11 @@ public class Role implements Serializable {
     @ManyToMany(mappedBy = "roles")
     private List<Group> groups;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -49,7 +49,7 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "Role{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", groups=" + groups +
                 '}';

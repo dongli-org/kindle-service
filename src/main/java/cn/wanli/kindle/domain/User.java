@@ -13,7 +13,7 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
-    private Long id;
+    private String id;
 
     @Column(name = "user_name")
     private String name;
@@ -33,11 +33,21 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
-    public Long getId() {
+    public User() {
+    }
+
+    public User(String id, String name, String password, String email) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -87,18 +97,5 @@ public class User implements Serializable {
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", available=" + available +
-                ", kindles=" + kindles +
-                ", groups=" + groups +
-                '}';
     }
 }

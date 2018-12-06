@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Kindle implements Serializable {
     @Id
     @Column(name = "kd_id")
-    private Long id;
+    private String id;
 
     @Column(name = "kd_email")
     private String email;
@@ -24,11 +24,11 @@ public class Kindle implements Serializable {
     @JoinColumn(name = "kd_user_id", referencedColumnName = "user_id")
     private User user;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,7 +59,7 @@ public class Kindle implements Serializable {
     @Override
     public String toString() {
         return "Kindle{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", user=" + user +

@@ -13,7 +13,7 @@ import java.util.List;
 public class KindleBook implements Serializable {
     @Id
     @Column(name = "book_id")
-    private Long id;
+    private String id;
 
     @Column(name = "book_name")
     private String name;
@@ -24,11 +24,11 @@ public class KindleBook implements Serializable {
     @OneToMany(mappedBy = "kindleBook")
     private List<KindlePush> pushes;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,15 +54,5 @@ public class KindleBook implements Serializable {
 
     public void setPushes(List<KindlePush> pushes) {
         this.pushes = pushes;
-    }
-
-    @Override
-    public String toString() {
-        return "KindleBook{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", path='" + path + '\'' +
-                ", pushes=" + pushes +
-                '}';
     }
 }

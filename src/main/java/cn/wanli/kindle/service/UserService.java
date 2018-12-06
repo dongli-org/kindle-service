@@ -1,12 +1,15 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.User;
+import cn.wanli.kindle.dto.UserDTO;
 import cn.wanli.kindle.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
+import static cn.wanli.kindle.utils.CommonsUtils.md5Encrypt;
+import static cn.wanli.kindle.utils.CommonsUtils.primaryKey;
 
 /**
  * @author wanli
@@ -23,15 +26,13 @@ public class UserService {
     }
 
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public Optional<User> findUser(Long id) {
-        return userRepository.findById(id);
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User registerUser(UserDTO dto) {
+        User user = new User(primaryKey(), dto.getName(), md5Encrypt(dto.getPassword()), dto.getEmail());
+        user.setAvailable(true);
+        return userRepository.save(user);
     }
 }

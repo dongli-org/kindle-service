@@ -14,7 +14,7 @@ public class Group implements Serializable {
 
     @Id
     @Column(name = "group_id")
-    private Long id;
+    private String id;
 
     @Column(name = "group_name")
     private String name;
@@ -31,11 +31,11 @@ public class Group implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
     private List<Role> roles;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -66,9 +66,10 @@ public class Group implements Serializable {
     @Override
     public String toString() {
         return "Group{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", users=" + users +
+                ", roles=" + roles +
                 '}';
     }
 }

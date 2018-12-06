@@ -1,10 +1,12 @@
 package cn.wanli.kindle.controller;
 
 import cn.wanli.kindle.domain.User;
+import cn.wanli.kindle.dto.UserDTO;
 import cn.wanli.kindle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,4 +32,12 @@ public class UserController {
         List<User> all = userService.findAll();
         return all.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(all);
     }
+
+    @PostMapping
+    public ResponseEntity<User> addUser(UserDTO dto) {
+        User user = userService.registerUser(dto);
+        return user == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(user);
+    }
+
+
 }
