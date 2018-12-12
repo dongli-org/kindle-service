@@ -17,14 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.persistence;
+package cn.wanli.kindle.controller;
 
-import cn.wanli.kindle.domain.Group;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author wanli
- * @date 2018-12-06 22:47
+ * @date 2018-12-07 11:00
  */
-public interface GroupRepository extends JpaRepository<Group, String> {
+@RestController
+@RequestMapping("/v1/kindle")
+public class KindleController {
 }
