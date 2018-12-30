@@ -44,7 +44,7 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public Optional<Group> findUser(String id) {
+    public Optional<Group> findUser(Long id) {
         return groupRepository.findById(id);
     }
 

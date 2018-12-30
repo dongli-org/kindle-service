@@ -36,7 +36,7 @@ public class Group implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_name")
+    @Column(name = "group_name", length = 32, unique = true, nullable = false)
     private String name;
 
     @ManyToMany(cascade = {CascadeType.ALL})

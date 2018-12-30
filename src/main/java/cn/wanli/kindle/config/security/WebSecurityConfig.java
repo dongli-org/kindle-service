@@ -54,6 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtAuthorizationTokenFilter jwtAuthorizationTokenFilter;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 认证设置
@@ -63,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -91,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(HttpMethod.POST, "/login").and()
-        .ignoring().antMatchers(HttpMethod.POST);
+        web.ignoring().antMatchers(HttpMethod.POST, "/v1/users/login").and()
+                .ignoring().antMatchers(HttpMethod.POST);
     }
 }

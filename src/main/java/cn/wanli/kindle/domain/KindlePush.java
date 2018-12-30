@@ -35,7 +35,7 @@ public class KindlePush implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "push_time")
+    @Column(name = "push_time", nullable = false)
     private LocalDateTime dateTime;
 
     @ManyToOne

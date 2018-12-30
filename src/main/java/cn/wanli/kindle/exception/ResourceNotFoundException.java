@@ -17,33 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.persistence;
-
-import cn.wanli.kindle.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
+package cn.wanli.kindle.exception;
 
 /**
+ * 资源未找到异常
+ *
  * @author wanli
- * @date 2018-12-06 20:34
+ * @date 2018-12-31 00:50
  */
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    /**
-     * 通过邮箱查找用户
-     *
-     * @param email 邮箱地址
-     * @return {@link User }
-     */
-    Optional<User> findByEmail(String email);
-
-    /**
-     * 通过名字查找用户
-     *
-     * @param name 用户姓名
-     * @return {@link User}
-     */
-    Optional<User> findByName(String name);
-
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 }

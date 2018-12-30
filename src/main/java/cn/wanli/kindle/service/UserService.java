@@ -20,15 +20,13 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.User;
-import cn.wanli.kindle.dto.UserDTO;
+import cn.wanli.kindle.entity.UserDTO;
 import cn.wanli.kindle.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static cn.wanli.kindle.utils.CommonsUtils.md5Encrypt;
-import static cn.wanli.kindle.utils.CommonsUtils.primaryKey;
 
 /**
  * @author wanli
@@ -37,12 +35,10 @@ import static cn.wanli.kindle.utils.CommonsUtils.primaryKey;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     public List<User> findAll() {
@@ -50,8 +46,9 @@ public class UserService {
     }
 
     public User registerUser(UserDTO dto) {
-        User user = new User(primaryKey(), dto.getName(), md5Encrypt(dto.getPassword()), dto.getEmail());
-        user.setAvailable(true);
+        User user = new User(dto.getName(), passwordEncoder.encode(dto.getPassword()), dto.getEmail());
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
         return userRepository.save(user);
     }
 }

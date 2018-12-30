@@ -60,6 +60,9 @@ public class DateTestDemo {
     @Test
     public void asd() {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(passwordEncoder.encode("asd"));
+        String asd = passwordEncoder.encode("asd");
+        System.out.println(asd);
+        System.out.println(passwordEncoder.matches("asd", asd));
+
     }
 }
