@@ -33,7 +33,8 @@ public class Group implements Serializable {
 
     @Id
     @Column(name = "group_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "group_name")
     private String name;
@@ -50,11 +51,11 @@ public class Group implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
     private List<Role> roles;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,15 +81,5 @@ public class Group implements Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", users=" + users +
-                ", roles=" + roles +
-                '}';
     }
 }

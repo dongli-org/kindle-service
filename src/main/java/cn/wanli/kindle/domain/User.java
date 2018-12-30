@@ -28,11 +28,12 @@ import java.util.List;
  * @date 2018-12-06 18:21
  */
 @Entity
-@Table(name = "tb_user")
+@Table(name = "tb_user", uniqueConstraints = {@UniqueConstraint(name = "user_name", columnNames = "user_name")})
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "user_name")
     private String name;
@@ -58,18 +59,18 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String id, String name, String password, String email) {
+    public User(Long id, String name, String password, String email) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

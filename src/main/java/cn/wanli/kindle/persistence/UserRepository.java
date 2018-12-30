@@ -26,6 +26,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author wanli
  * @date 2018-12-06 20:34
  */
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 }

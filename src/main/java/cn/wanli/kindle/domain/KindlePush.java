@@ -32,7 +32,8 @@ import java.time.LocalDateTime;
 public class KindlePush implements Serializable {
     @Id
     @Column(name = "push_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "push_time")
     private LocalDateTime dateTime;
@@ -45,11 +46,11 @@ public class KindlePush implements Serializable {
     @JoinColumn(name = "push_book_id", referencedColumnName = "book_id")
     private KindleBook kindleBook;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,15 +76,5 @@ public class KindlePush implements Serializable {
 
     public void setKindleBook(KindleBook kindleBook) {
         this.kindleBook = kindleBook;
-    }
-
-    @Override
-    public String toString() {
-        return "KindlePush{" +
-                "id='" + id + '\'' +
-                ", dateTime=" + dateTime +
-                ", kindle=" + kindle +
-                ", kindleBook=" + kindleBook +
-                '}';
     }
 }
