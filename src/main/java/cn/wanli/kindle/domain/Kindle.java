@@ -31,7 +31,8 @@ import java.io.Serializable;
 public class Kindle implements Serializable {
     @Id
     @Column(name = "kd_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "kd_email")
     private String email;
@@ -43,11 +44,11 @@ public class Kindle implements Serializable {
     @JoinColumn(name = "kd_user_id", referencedColumnName = "user_id")
     private User user;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,15 +74,5 @@ public class Kindle implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Kindle{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", user=" + user +
-                '}';
     }
 }

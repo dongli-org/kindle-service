@@ -32,7 +32,8 @@ import java.util.List;
 public class KindleBook implements Serializable {
     @Id
     @Column(name = "book_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "book_name")
     private String name;
@@ -43,11 +44,11 @@ public class KindleBook implements Serializable {
     @OneToMany(mappedBy = "kindleBook")
     private List<KindlePush> pushes;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
