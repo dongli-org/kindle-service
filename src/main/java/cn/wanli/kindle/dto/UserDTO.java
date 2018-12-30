@@ -19,6 +19,9 @@
 
 package cn.wanli.kindle.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
@@ -27,10 +30,15 @@ import java.io.Serializable;
  * @author wanli
  * @date 2018-12-06 23:22
  */
+@ApiModel(value = "UserDTO", description = "用户数据传输对象")
 public class UserDTO implements Serializable {
+    @ApiModelProperty("用户ID")
     private String id;
+    @ApiModelProperty("用户姓名")
     private String name;
+    @ApiModelProperty("用户密码")
     private String password;
+    @ApiModelProperty("用户邮箱地址")
     private String email;
 
     public String getId() {

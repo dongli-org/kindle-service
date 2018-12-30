@@ -43,8 +43,11 @@ public class User implements Serializable {
     @Column(name = "user_email")
     private String email;
 
-    @Column(name = "user_available")
+    @Column(name = "user_enabled")
     private Boolean available;
+
+    @Column(name = "account_non_expired")
+    private Boolean accountNonExpired;
 
     @OneToMany(mappedBy = "user")
     private List<Kindle> kindles;
@@ -100,6 +103,14 @@ public class User implements Serializable {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public Boolean getAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(Boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
     }
 
     public List<Kindle> getKindles() {

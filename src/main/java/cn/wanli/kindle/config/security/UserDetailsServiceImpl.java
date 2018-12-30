@@ -17,17 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.controller;
+package cn.wanli.kindle.config.security;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.wanli.kindle.persistence.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 /**
  * @author wanli
- * @date 2018-12-06 23:04
+ * @date 2018-12-29 00:18
  */
-@RestController
-@RequestMapping
-public class HomeController {
+@Service("userDetail")
+public class UserDetailsServiceImpl implements UserDetailsService {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
 }

@@ -22,6 +22,9 @@ package cn.wanli.kindle.controller;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.dto.UserDTO;
 import cn.wanli.kindle.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/v1/users")
+@Api("Operations about users")
 public class UserController {
 
     private final UserService userService;
@@ -47,13 +51,16 @@ public class UserController {
     }
 
     @GetMapping
+    @ApiOperation(value = "获取所有用户", response = ResponseEntity.class)
     public ResponseEntity<List<User>> users() {
         List<User> all = userService.findAll();
         return all.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(all);
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(UserDTO dto) {
+    @ApiOperation("用户注册")
+    @ApiImplicitParam(name = "dto", value = "注册用户的基本信息", dataTypeClass = UserDTO.class)
+    public ResponseEntity<User> registerUser(UserDTO dto) {
         User user = userService.registerUser(dto);
         return user == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(user);
     }
