@@ -20,19 +20,27 @@
 package cn.wanli.kindle.controller;
 
 import cn.wanli.kindle.domain.User;
-import cn.wanli.kindle.dto.UserDTO;
+import cn.wanli.kindle.entity.AuthorizationUser;
+import cn.wanli.kindle.entity.UserDTO;
 import cn.wanli.kindle.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static cn.wanli.kindle.config.security.JwtUtils.generateToken;
 
 /**
  * @author wanli
@@ -43,11 +51,18 @@ import java.util.List;
 @Api("Operations about users")
 public class UserController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     private final UserService userService;
+    private final UserDetailsService userDetailsService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, @Qualifier("userDetail") UserDetailsService userDetailsService,
+                          BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -65,5 +80,23 @@ public class UserController {
         return user == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(user);
     }
 
+    @PostMapping("/login")
+    @ApiOperation("用户登陆")
+    public ResponseEntity login(@RequestBody AuthorizationUser user, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldErrors());
+        }
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        if (!passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("密码或用户名错误");
+        }
+        if (!userDetails.isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("账户被锁定");
+        }
+        //生成Token
+        String token = generateToken(userDetails);
+        LOGGER.info(String.format("用户: '%s'获取token: '%s'", user.getUsername(), token));
+        return ResponseEntity.status(HttpStatus.OK).body(token);
+    }
 }

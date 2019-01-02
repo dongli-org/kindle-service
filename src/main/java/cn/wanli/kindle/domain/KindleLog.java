@@ -21,26 +21,28 @@ package cn.wanli.kindle.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:39
+ * @date 2018-12-31 01:04
  */
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
-
+@Table(name = "tb_log")
+public class KindleLog implements Serializable {
     @Id
-    @Column(name = "role_id")
+    @Column(name = "log_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name", length = 32, nullable = false)
-    private String name;
+    @Column(name = "log_name", length = 32, nullable = false)
+    private String username;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Group> groups;
+    @Column(name = "log_time", nullable = false)
+    private LocalDateTime time;
+
+    @Column(name = "log_todo", nullable = false)
+    private String todo;
 
     public Long getId() {
         return id;
@@ -50,19 +52,27 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public String getTodo() {
+        return todo;
+    }
+
+    public void setTodo(String todo) {
+        this.todo = todo;
     }
 }

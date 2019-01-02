@@ -17,33 +17,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.persistence;
+package cn.wanli.kindle.config;
 
-import cn.wanli.kindle.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author wanli
- * @date 2018-12-06 20:34
+ * @date 2018-12-31 00:19
  */
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    /**
-     * 通过邮箱查找用户
-     *
-     * @param email 邮箱地址
-     * @return {@link User }
-     */
-    Optional<User> findByEmail(String email);
-
-    /**
-     * 通过名字查找用户
-     *
-     * @param name 用户姓名
-     * @return {@link User}
-     */
-    Optional<User> findByName(String name);
-
+@Configuration
+public class BeansConfig {
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

@@ -24,42 +24,29 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Date;
+import java.util.List;
+
 
 /**
- * Created by stephan on 20.03.16.
+ * @author wanli
  */
 public class JwtUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    private final String firstname;
-    private final String lastname;
     private final String password;
     private final String email;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private final List<? extends GrantedAuthority> authorities;
     private final boolean enabled;
-    private final Date lastPasswordResetDate;
 
-    public JwtUser(
-          Long id,
-          String username,
-          String firstname,
-          String lastname,
-          String email,
-          String password, Collection<? extends GrantedAuthority> authorities,
-          boolean enabled,
-          Date lastPasswordResetDate
-    ) {
+    public JwtUser(Long id, String username, String password, String email, List<? extends GrantedAuthority> authorities,
+                   boolean enabled) {
         this.id = id;
         this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
         this.password = password;
+        this.email = email;
         this.authorities = authorities;
         this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     @JsonIgnore
@@ -90,14 +77,6 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -116,10 +95,5 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    @JsonIgnore
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
     }
 }

@@ -35,19 +35,19 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", length = 32, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "user_password")
+    @Column(name = "user_password", length = 60, nullable = false)
     private String password;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", length = 128, unique = true)
     private String email;
 
-    @Column(name = "user_enabled")
-    private Boolean available;
+    @Column(name = "user_enabled", nullable = false)
+    private Boolean enabled;
 
-    @Column(name = "account_non_expired")
+    @Column(name = "account_non_expired", nullable = false)
     private Boolean accountNonExpired;
 
     @OneToMany(mappedBy = "user")
@@ -59,8 +59,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String password, String email) {
-        this.id = id;
+    public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -98,12 +97,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Boolean getAvailable() {
-        return available;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Boolean getAccountNonExpired() {

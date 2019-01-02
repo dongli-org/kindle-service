@@ -17,44 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.dto;
+package cn.wanli.kindle.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
 /**
- * 用户数据传输对象
+ * 需要权限认证的用户信息
  *
  * @author wanli
- * @date 2018-12-06 23:22
+ * @date 2018-12-31 01:47
  */
-@ApiModel(value = "UserDTO", description = "用户数据传输对象")
-public class UserDTO implements Serializable {
-    @ApiModelProperty("用户ID")
-    private String id;
-    @ApiModelProperty("用户姓名")
-    private String name;
-    @ApiModelProperty("用户密码")
+public class AuthorizationUser {
+    @NotBlank
+    private String username;
+    @NotBlank
     private String password;
-    @ApiModelProperty("用户邮箱地址")
-    private String email;
 
-    public String getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -65,21 +49,11 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String toString() {
-        return "UserDTO{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+        return "AuthorizationUser{" +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
                 '}';
     }
 }
