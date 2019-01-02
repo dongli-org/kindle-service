@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2018-12-06 18:21
  */
 @Entity
-@Table(name = "tb_user", uniqueConstraints = {@UniqueConstraint(name = "user_name", columnNames = "user_name")})
+@Table(name = "tb_user")
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
