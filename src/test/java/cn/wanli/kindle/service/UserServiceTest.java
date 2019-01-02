@@ -19,7 +19,7 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.dto.UserDTO;
+import cn.wanli.kindle.entity.UserDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import static cn.wanli.kindle.utils.CommonsUtils.primaryKey;
 
 /**
  * @author wanli
@@ -47,13 +45,12 @@ public class UserServiceTest {
     @Rollback(false)
     public void saveUser() {
         UserDTO user = new UserDTO();
-        user.setId(primaryKey());
-        user.setName("wanli");
+        user.setName("wanli" + System.currentTimeMillis());
         user.setPassword("123456");
         user.setEmail("wanlinus@qq.com");
         userService.registerUser(user);
     }
-    
+
     @Test
     @Transactional(rollbackFor = Exception.class)
     public void findAll() {

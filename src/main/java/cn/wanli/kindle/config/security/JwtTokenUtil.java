@@ -41,7 +41,7 @@ public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -3301605591108950415L;
     private Clock clock = DefaultClock.INSTANCE;
 
-    private String secret = "mySecret";
+    private String secret = "wanli";
 
     private Long expiration = 604800L;
 
@@ -128,9 +128,7 @@ public class JwtTokenUtil implements Serializable {
         //final Date expiration = getExpirationDateFromToken(token);
         return (
                 username.equals(user.getUsername())
-                        && !isTokenExpired(token)
-                        && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
-        );
+                        && !isTokenExpired(token));
     }
 
     private Date calculateExpirationDate(Date createdDate) {
