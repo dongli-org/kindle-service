@@ -23,8 +23,9 @@ import cn.wanli.kindle.config.KindleConstant;
 import cn.wanli.kindle.config.security.JwtTokenUtil;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.entity.AuthorizationUser;
+import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserDTO;
-import cn.wanli.kindle.service.UserService;
+import cn.wanli.kindle.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static cn.wanli.kindle.config.KindleConstant.BEARER;
+
 /**
  * @author wanli
  * @date 2018-12-06 22:52
@@ -54,13 +57,13 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenUtil util;
 
     @Autowired
-    public UserController(UserService userService, @Qualifier("userDetail") UserDetailsService userDetailsService,
+    public UserController(UserServiceImpl userService, @Qualifier("userDetail") UserDetailsService userDetailsService,
                           BCryptPasswordEncoder passwordEncoder, JwtTokenUtil util) {
         this.userService = userService;
         this.userDetailsService = userDetailsService;
@@ -97,17 +100,31 @@ public class UserController {
         if (!userDetails.isEnabled()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("账户被锁定");
         }
-        //生成Token
-        String token = util.generateToken(userDetails);
-        LOGGER.debug(String.format("token:'%s'", token));
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(BEARER + util.generateToken(userDetails));
     }
 
-    @PutMapping("/id")
-    public ResponseEntity modifyAccount(@PathVariable Long id, @RequestBody UserDTO dto, HttpServletRequest request) {
-        String token = request.getHeader(KindleConstant.AUTHORIZATION);
-
+    @PutMapping
+    public ResponseEntity modifyAccount(@RequestBody UserDTO dto, HttpServletRequest request) {
+        String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
+        Long id = util.getUserIdFromToken(authHeader.substring(7));
         userService.modifyAccount(id, dto);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("nickname")
+    public ResponseEntity modifyNickname(String nickname, HttpServletRequest request) {
+        String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
+        Long id = util.getUserIdFromToken(authHeader.substring(7));
+        userService.modifyNickname(id, nickname);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("password")
+    public ResponseEntity modifyPassword(@RequestBody PasswordEntity entity, HttpServletRequest request) {
+        String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
+        Long id = util.getUserIdFromToken(authHeader.substring(7));
+        return ResponseEntity.ok(userService.modifyPassword(id, entity));
+    }
+
+
 }

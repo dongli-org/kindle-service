@@ -47,6 +47,10 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    public Long getUserIdFromToken(String token) {
+        return getClaimFromToken(token, claims -> Long.parseLong(String.valueOf(claims.get("uid"))));
+    }
+
     public Date getIssuedAtDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getIssuedAt);
     }
@@ -76,7 +80,7 @@ public class JwtTokenUtil implements Serializable {
         long expired = now + ACCESS_TOKEN_VALIDITY_SECONDS;
         Map<String, Object> claims = new HashMap<>(16);
         claims.put("role", user.getAuthorities());
-        claims.put("id", jwtUser.getId());
+        claims.put("uid", jwtUser.getId());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())

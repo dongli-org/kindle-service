@@ -20,45 +20,53 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.User;
+import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserDTO;
-import cn.wanli.kindle.persistence.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * @author wanli
- * @date 2018-12-06 20:36
+ * @date 2019-01-04 01:04
  */
-@Service
-public class UserService {
+public interface UserService {
+    /**
+     * 查询所有用户
+     *
+     * @return 所有用户集合
+     */
+    List<User> findAll();
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    /**
+     * 用户注册
+     *
+     * @param dto 用户注册数据传输对象
+     * @return 注册成功后的用户信息
+     */
+    User registerUser(UserDTO dto);
 
+    /**
+     * 修改用户信息
+     *
+     * @param id  用户ID
+     * @param dto 包含用户信息的数据传输对象
+     */
+    void modifyAccount(Long id, UserDTO dto);
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    /**
+     * 修改用户昵称
+     *
+     * @param id       用户ID
+     * @param nickname 需要修改的用户昵称
+     */
+    void modifyNickname(Long id, String nickname);
 
-    @Transactional(rollbackFor = Exception.class)
-    public User registerUser(UserDTO dto) {
-        User user = new User(dto.getName(), passwordEncoder.encode(dto.getPassword()), dto.getEmail());
-        user.setEnabled(true);
-        user.setAccountNonExpired(true);
-        return userRepository.save(user);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void modifyAccount(Long id, UserDTO dto) {
-        userRepository.findById(id).ifPresent(user -> {
-            user.setEmail(dto.getEmail());
-            user.setName(dto.getName());
-        });
-    }
+    /**
+     * 修改用户密码
+     *
+     * @param id     用户ID
+     * @param entity 包含用户原始密码和新密码的实体
+     * @return 修改成功返回true否则返回false
+     */
+    boolean modifyPassword(Long id, PasswordEntity entity);
 }

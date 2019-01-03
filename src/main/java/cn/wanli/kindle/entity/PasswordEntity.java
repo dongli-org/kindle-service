@@ -17,24 +17,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.entity;
 
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-04 00:27
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
+public class PasswordEntity {
+    private String original;
+    private String present;
 
-    Optional<Group> findUser(Long id);
+    public String getOriginal() {
+        return original;
+    }
+
+    public void setOriginal(String original) {
+        this.original = original;
+    }
+
+    public String getPresent() {
+        return present;
+    }
+
+    public void setPresent(String present) {
+        this.present = present;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

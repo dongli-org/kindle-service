@@ -17,24 +17,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.service.impl;
 
 import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.persistence.GroupRepository;
+import cn.wanli.kindle.service.GroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2018-12-06 22:48
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
+@Service
+public class GroupServiceImpl implements GroupService {
 
-    Optional<Group> findUser(Long id);
+    private final GroupRepository groupRepository;
+
+    @Autowired
+    public GroupServiceImpl(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
+    @Override
+    public Group save(Group group) {
+        return groupRepository.save(group);
+    }
+
+    @Override
+    public Optional<Group> findUser(Long id) {
+        return groupRepository.findById(id);
+    }
+
 }
