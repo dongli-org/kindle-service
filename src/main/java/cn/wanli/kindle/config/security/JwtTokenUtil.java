@@ -20,10 +20,8 @@
 package cn.wanli.kindle.config.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -40,11 +38,10 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 5 * 60 * 60 * 1000;
-    private Clock clock = DefaultClock.INSTANCE;
+    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 1000;
 
-    @Value("${kindle.kv.secret}")
-    private String secret;
+    @Value("${kindle.kv.signing-key}")
+    private String signingKey;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -64,70 +61,46 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(clock.now());
+        return expiration.before(new Date());
     }
 
-    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.before(lastPasswordReset));
-    }
-
-    private Boolean ignoreTokenExpiration(String token) {
-        // here you specify tokens, for that the expiration is ignored
-        return false;
-    }
-
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
-    }
-
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-        final Date createdDate = clock.now();
-        final Date expirationDate = calculateExpirationDate(createdDate);
-
+    public String generateToken(UserDetails user) {
+        JwtUser jwtUser = (JwtUser) user;
+        long now = System.currentTimeMillis();
+        //一个小时
+        long expired = now + ACCESS_TOKEN_VALIDITY_SECONDS;
+        Map<String, Object> claims = new HashMap<>(16);
+        claims.put("role", user.getAuthorities());
+        claims.put("id", jwtUser.getId());
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .setSubject(user.getUsername())
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(expired))
+                .signWith(SignatureAlgorithm.HS512, signingKey)
                 .compact();
-    }
-
-    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        final Date created = getIssuedAtDateFromToken(token);
-        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
     }
 
     public String refreshToken(String token) {
-        final Date createdDate = clock.now();
-        final Date expirationDate = calculateExpirationDate(createdDate);
+        long now = System.currentTimeMillis();
+        //一个小时
+        long expired = now + ACCESS_TOKEN_VALIDITY_SECONDS;
 
         final Claims claims = getAllClaimsFromToken(token);
-        claims.setIssuedAt(createdDate);
-        claims.setExpiration(expirationDate);
+        claims.setIssuedAt(new Date(now));
+        claims.setExpiration(new Date(expired));
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, signingKey).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         JwtUser user = (JwtUser) userDetails;
         final String username = getUsernameFromToken(token);
-        final Date created = getIssuedAtDateFromToken(token);
-        //final Date expiration = getExpirationDateFromToken(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
-    }
-
-    private Date calculateExpirationDate(Date createdDate) {
-        return new Date(createdDate.getTime() + ACCESS_TOKEN_VALIDITY_SECONDS);
     }
 }

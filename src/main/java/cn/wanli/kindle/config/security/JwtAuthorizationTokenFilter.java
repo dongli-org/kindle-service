@@ -19,6 +19,7 @@
 
 package cn.wanli.kindle.config.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static cn.wanli.kindle.config.KindleConstant.AUTHORIZATION;
+import static cn.wanli.kindle.config.KindleConstant.BEARER;
+
 /**
  * 基于JWT的安全过滤器
  *
@@ -47,8 +51,6 @@ import java.io.IOException;
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthorizationTokenFilter.class);
-    private static final String BEARER = "Bearer ";
-    private static final String AUTHORIZATION = "Authorization";
 
     @Autowired
     @Qualifier("userDetail")
@@ -65,10 +67,27 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         final String requestHeader = request.getHeader(AUTHORIZATION);
         String username = null;
         String authToken = null;
+
         if (requestHeader != null && requestHeader.startsWith(BEARER)) {
             authToken = requestHeader.substring(7);
-            username = jwtTokenUtil.getUsernameFromToken(authToken);
+            try {
+                username = jwtTokenUtil.getUsernameFromToken(authToken);
+            } catch (IllegalArgumentException e) {
+                LOGGER.error("an error occurred during getting username from token");
+                response.getWriter().append("an error occurred during getting username from token").flush();
+                return;
+            } catch (ExpiredJwtException e) {
+                LOGGER.warn("the token is expired and not valid anymore");
+                response.getWriter().append("the token is expired and not valid anymore").flush();
+                return;
+            } catch (Exception e) {
+                LOGGER.error("未知错误");
+                return;
+            }
+        } else {
+            logger.warn("couldn't find bearer string, will ignore the header");
         }
+
 
         LOGGER.info("checking authentication for user'{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

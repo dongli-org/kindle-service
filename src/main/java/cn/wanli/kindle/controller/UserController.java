@@ -19,6 +19,8 @@
 
 package cn.wanli.kindle.controller;
 
+import cn.wanli.kindle.config.KindleConstant;
+import cn.wanli.kindle.config.security.JwtTokenUtil;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.entity.AuthorizationUser;
 import cn.wanli.kindle.entity.UserDTO;
@@ -38,9 +40,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import static cn.wanli.kindle.config.security.JwtUtils.generateToken;
 
 /**
  * @author wanli
@@ -56,13 +57,15 @@ public class UserController {
     private final UserService userService;
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenUtil util;
 
     @Autowired
     public UserController(UserService userService, @Qualifier("userDetail") UserDetailsService userDetailsService,
-                          BCryptPasswordEncoder passwordEncoder) {
+                          BCryptPasswordEncoder passwordEncoder, JwtTokenUtil util) {
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.util = util;
     }
 
     @GetMapping
@@ -95,13 +98,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("账户被锁定");
         }
         //生成Token
-        String token = generateToken(userDetails);
-        LOGGER.info(String.format("用户: '%s'获取token: '%s'", user.getUsername(), token));
-        return ResponseEntity.status(HttpStatus.OK).body(token);
+        String token = util.generateToken(userDetails);
+        LOGGER.debug(String.format("token:'%s'", token));
+        return ResponseEntity.ok(token);
     }
 
     @PutMapping("/id")
-    public ResponseEntity modifyAccount(@PathVariable Long id, @RequestBody UserDTO dto) {
+    public ResponseEntity modifyAccount(@PathVariable Long id, @RequestBody UserDTO dto, HttpServletRequest request) {
+        String token = request.getHeader(KindleConstant.AUTHORIZATION);
+
         userService.modifyAccount(id, dto);
         return ResponseEntity.ok().build();
     }

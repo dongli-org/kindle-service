@@ -54,9 +54,6 @@ public class ValidUserAspect {
     public Object val(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String jwtToken = request.getHeader("Authentication");
-
-        LOGGER.info(String.format("username %s", utils.getUsernameFromToken(jwtToken)));
-
         return joinPoint.proceed();
     }
 

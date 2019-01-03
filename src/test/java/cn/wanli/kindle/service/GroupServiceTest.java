@@ -41,11 +41,4 @@ public class GroupServiceTest {
     @Test
     public void findUser() {
     }
-
-    @Test
-    public void aas() {
-        RestTemplate restTemplate = new RestTemplate();
-        Object forObject = restTemplate.getForObject("http://127.0.0.1:8443", Object.class);
-        System.out.println(JSON.toJSONString(forObject));
-    }
 }
