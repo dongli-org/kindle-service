@@ -99,4 +99,10 @@ public class UserController {
         LOGGER.info(String.format("用户: '%s'获取token: '%s'", user.getUsername(), token));
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
+
+    @PutMapping("/id")
+    public ResponseEntity modifyAccount(@PathVariable Long id, @RequestBody UserDTO dto) {
+        userService.modifyAccount(id, dto);
+        return ResponseEntity.ok().build();
+    }
 }

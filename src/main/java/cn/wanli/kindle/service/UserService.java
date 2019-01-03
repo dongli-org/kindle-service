@@ -25,6 +25,7 @@ import cn.wanli.kindle.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,10 +46,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public User registerUser(UserDTO dto) {
         User user = new User(dto.getName(), passwordEncoder.encode(dto.getPassword()), dto.getEmail());
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         return userRepository.save(user);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void modifyAccount(Long id, UserDTO dto) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setEmail(dto.getEmail());
+            user.setName(dto.getName());
+        });
     }
 }
