@@ -19,11 +19,13 @@
 
 package cn.wanli.kindle.controller;
 
-import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.entity.GroupEntity;
 import cn.wanli.kindle.service.GroupService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,8 +42,8 @@ public class AdminController {
     private GroupService groupService;
 
     @PostMapping("/groups")
-    public Group addGroup() {
-        return null;
+    public ResponseEntity<GroupEntity> addGroup(@RequestBody GroupEntity group) {
+        return ResponseEntity.ok(groupService.addGroup(group));
     }
 
 }

@@ -17,44 +17,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.domain;
+package cn.wanli.kindle.entity;
 
 import com.alibaba.fastjson.JSON;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:30
+ * @date 2019-01-05 02:21
  */
-@Entity
-@Table(name = "tb_group")
-public class Group implements Serializable {
-
-    @Id
-    @Column(name = "group_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GroupEntity {
     private Long id;
 
-    @Column(name = "group_name", length = 32, unique = true, nullable = false)
+    @NotBlank
     private String name;
 
-    @Column(name = "group_desc", length = 64)
     private String desc;
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_user_group",
-            joinColumns = {@JoinColumn(name = "ug_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ug_user_id")})
-    private List<User> users;
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_group_role",
-            joinColumns = {@JoinColumn(name = "gr_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
-    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -78,22 +57,6 @@ public class Group implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     @Override

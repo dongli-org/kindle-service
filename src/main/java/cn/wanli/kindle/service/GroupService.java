@@ -20,6 +20,7 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.entity.GroupEntity;
 
 import java.util.Optional;
 
@@ -43,4 +44,12 @@ public interface GroupService {
      * @return {@link Group} group
      */
     Optional<Group> findById(Long id);
+
+    /**
+     * 添加用户组
+     *
+     * @param group group
+     * @return 添加成功返回true, 否则返回false
+     */
+    GroupEntity addGroup(GroupEntity group);
 }

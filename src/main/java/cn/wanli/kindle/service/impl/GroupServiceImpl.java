@@ -20,10 +20,12 @@
 package cn.wanli.kindle.service.impl;
 
 import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.entity.GroupEntity;
 import cn.wanli.kindle.persistence.GroupRepository;
 import cn.wanli.kindle.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -49,6 +51,22 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Optional<Group> findById(Long id) {
         return groupRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public GroupEntity addGroup(GroupEntity entity) {
+        Optional<Group> groupOptional = groupRepository.findByName(entity.getName());
+        if (groupOptional.isPresent()) {
+            return null;
+        } else {
+            Group group = new Group();
+            group.setName(entity.getName());
+            group.setDesc(entity.getDesc());
+            Group save = groupRepository.save(group);
+            entity.setId(save.getId());
+            return entity;
+        }
     }
 
 }

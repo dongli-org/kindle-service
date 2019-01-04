@@ -22,9 +22,18 @@ package cn.wanli.kindle.persistence;
 import cn.wanli.kindle.domain.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * @author wanli
  * @date 2018-12-06 22:47
  */
 public interface GroupRepository extends JpaRepository<Group, Long> {
+    /**
+     * 通过名字来查找组
+     *
+     * @param name 组名字
+     * @return {@link Group}
+     */
+    Optional<Group> findByName(String name);
 }
