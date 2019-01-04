@@ -17,24 +17,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.persistence;
 
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
+import cn.wanli.kindle.domain.KindleBook;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-04 00:58
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
+public interface KindleBookRepository extends JpaRepository<KindleBook, Long> {
 
-    Optional<Group> findUser(Long id);
+    /**
+     * 根据书籍名字分页查询
+     *
+     * @param name     书名关键字
+     * @param pageable 分页信息
+     * @return 分页列表
+     */
+    Page<KindleBook> findAllByNameContaining(String name, Pageable pageable);
 }

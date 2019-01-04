@@ -17,24 +17,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.persistence;
 
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
+import cn.wanli.kindle.domain.Kindle;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-04 00:57
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
-
-    Optional<Group> findUser(Long id);
+public interface KindleRepository extends JpaRepository<Kindle, Long> {
 }

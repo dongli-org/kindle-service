@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").anonymous()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/*/api-docs").anonymous()
-                //这句没搞懂
+
                 .antMatchers(HttpMethod.OPTIONS, "/**").anonymous()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtAuthorizationTokenFilter, UsernamePasswordAuthenticationFilter.class);

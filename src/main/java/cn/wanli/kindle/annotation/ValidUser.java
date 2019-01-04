@@ -17,24 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
-
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
+package cn.wanli.kindle.annotation;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-02 23:59
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
-
-    Optional<Group> findUser(Long id);
+public @interface ValidUser {
 }

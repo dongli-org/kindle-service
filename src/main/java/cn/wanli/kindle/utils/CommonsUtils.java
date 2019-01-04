@@ -29,7 +29,7 @@ public final class CommonsUtils {
     }
 
     /**
-     * 验证是否飞邮箱
+     * 验证是否为邮箱
      *
      * @param str 验证字符串
      * @return 是邮箱返回true 否则返回false
