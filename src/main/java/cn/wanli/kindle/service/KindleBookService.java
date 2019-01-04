@@ -19,22 +19,23 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
+import cn.wanli.kindle.domain.KindleBook;
+import cn.wanli.kindle.entity.PaginationData;
 
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-04 00:59
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
+public interface KindleBookService {
 
-    Optional<Group> findUser(Long id);
+    /**
+     * 获取分页kindle书籍
+     *
+     * @param requestPage 请求页数
+     * @param pageSize    每页数据量
+     * @param keyword     搜索关键字
+     * @return 分页数据 {@link PaginationData}
+     */
+    PaginationData<KindleBook> pageBooks(int requestPage, int pageSize, String keyword);
+
 }

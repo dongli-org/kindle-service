@@ -55,7 +55,7 @@ public class MailServiceImplTest {
 
     @Test
     public void sendAttachmentsMail() {
-        String filePath = "d:\\aaa.txt";
+        String filePath = "/aaa.txt";
         mailService.sendAttachmentsMail("wanlinus@qq.com", "主题：带附件的邮件", "有附件，请查收！", filePath);
     }
 

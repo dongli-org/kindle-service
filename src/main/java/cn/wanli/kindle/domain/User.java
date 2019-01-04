@@ -19,6 +19,8 @@
 
 package cn.wanli.kindle.domain;
 
+import com.alibaba.fastjson.JSON;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -28,15 +30,23 @@ import java.util.List;
  * @date 2018-12-06 18:21
  */
 @Entity
-@Table(name = "tb_user", uniqueConstraints = {@UniqueConstraint(name = "user_name", columnNames = "user_name")})
+@Table(name = "tb_user")
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 用户名 唯一
+     */
     @Column(name = "user_name", length = 32, nullable = false, unique = true)
     private String name;
+    /**
+     * 用户昵称
+     */
+    @Column(name = "user_nickname", length = 32)
+    private String nickname;
 
     @Column(name = "user_password", length = 60, nullable = false)
     private String password;
@@ -44,15 +54,33 @@ public class User implements Serializable {
     @Column(name = "user_email", length = 128, unique = true)
     private String email;
 
+    /**
+     * 是否可用
+     */
     @Column(name = "user_enabled", nullable = false)
     private Boolean enabled;
 
+    /**
+     * 是否系统推送
+     */
+    @Column(name = "user_sys_push")
+    private Boolean systemPush;
+
+    /**
+     * 账户是否过期
+     */
     @Column(name = "account_non_expired", nullable = false)
     private Boolean accountNonExpired;
 
+    /**
+     * 用户的Kindle设备
+     */
     @OneToMany(mappedBy = "user")
     private List<Kindle> kindles;
 
+    /**
+     * 用户所属组
+     */
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
@@ -81,6 +109,14 @@ public class User implements Serializable {
         this.name = name;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -105,6 +141,14 @@ public class User implements Serializable {
         this.enabled = enabled;
     }
 
+    public Boolean getSystemPush() {
+        return systemPush;
+    }
+
+    public void setSystemPush(Boolean systemPush) {
+        this.systemPush = systemPush;
+    }
+
     public Boolean getAccountNonExpired() {
         return accountNonExpired;
     }
@@ -127,5 +171,10 @@ public class User implements Serializable {
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

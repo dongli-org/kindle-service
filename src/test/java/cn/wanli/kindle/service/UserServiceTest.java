@@ -20,6 +20,7 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
 
     @Test
@@ -45,7 +46,7 @@ public class UserServiceTest {
     @Rollback(false)
     public void saveUser() {
         UserDTO user = new UserDTO();
-        user.setName("wanli" + System.currentTimeMillis());
+        user.setName("wanli");
         user.setPassword("123456");
         user.setEmail("wanlinus@qq.com");
         userService.registerUser(user);

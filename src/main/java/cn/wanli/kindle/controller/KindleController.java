@@ -19,7 +19,13 @@
 
 package cn.wanli.kindle.controller;
 
+import cn.wanli.kindle.domain.KindleBook;
+import cn.wanli.kindle.entity.PaginationData;
+import cn.wanli.kindle.service.KindleBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,6 +33,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018-12-07 11:00
  */
 @RestController
-@RequestMapping("/v1/kindle")
+@RequestMapping("/v1/kindles")
 public class KindleController {
+
+    @Autowired
+    private KindleBookService bookService;
+
+    @GetMapping
+    public PaginationData<KindleBook> pageKindleSource(@RequestParam(defaultValue = "1") int requestPage,
+                                                       @RequestParam(defaultValue = "10") int pageSize,
+                                                       @RequestParam String keyword) {
+        return bookService.pageBooks(requestPage, pageSize, keyword);
+    }
+
 }

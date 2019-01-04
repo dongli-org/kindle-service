@@ -19,8 +19,11 @@
 
 package cn.wanli.kindle.domain;
 
+import com.alibaba.fastjson.JSON;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,8 +41,14 @@ public class KindleBook implements Serializable {
     @Column(name = "book_name")
     private String name;
 
+    @Column(name = "book_pic")
+    private String picture;
+
     @Column(name = "book_path")
     private String path;
+
+    @Column(name = "book_date")
+    private LocalDateTime dateTime;
 
     @OneToMany(mappedBy = "kindleBook")
     private List<KindlePush> pushes;
@@ -60,6 +69,14 @@ public class KindleBook implements Serializable {
         this.name = name;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public String getPath() {
         return path;
     }
@@ -68,11 +85,24 @@ public class KindleBook implements Serializable {
         this.path = path;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public List<KindlePush> getPushes() {
         return pushes;
     }
 
     public void setPushes(List<KindlePush> pushes) {
         this.pushes = pushes;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

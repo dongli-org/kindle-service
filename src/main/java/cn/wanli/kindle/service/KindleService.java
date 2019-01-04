@@ -19,22 +19,11 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.domain.Group;
-
-import java.util.Optional;
-
 /**
  * @author wanli
- * @date 2019-01-04 01:01
+ * @date 2019-01-04 00:57
  */
-public interface GroupService {
-    /**
-     * 保存 group
-     *
-     * @param group see {@link Group}
-     * @return
-     */
-    Group save(Group group);
+public interface KindleService {
 
-    Optional<Group> findUser(Long id);
+
 }

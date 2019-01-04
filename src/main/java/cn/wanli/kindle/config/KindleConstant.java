@@ -17,34 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.config.security;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Date;
-import java.util.HashMap;
+package cn.wanli.kindle.config;
 
 /**
  * @author wanli
- * @date 2018-12-31 02:13
+ * @date 2019-01-03 21:58
  */
-public final class JwtUtils {
-    private JwtUtils() {
+public final class KindleConstant {
+    private KindleConstant() {
         throw new AssertionError();
     }
 
-    public static String generateToken(UserDetails userDetails) {
-        Long now = System.currentTimeMillis();
-        long expired = now + 60 * 60 * 1000;
-
-        return Jwts.builder()
-                .setClaims(new HashMap<>(1))
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(now))
-                .setExpiration(new Date(expired))
-                .signWith(SignatureAlgorithm.HS512, "wanli")
-                .compact();
-    }
+    public static final String BEARER = "Bearer ";
+    public static final String AUTHORIZATION = "Authorization";
 }
