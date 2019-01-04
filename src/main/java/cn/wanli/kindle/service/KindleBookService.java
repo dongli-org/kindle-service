@@ -19,7 +19,7 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.domain.KindleBook;
+import cn.wanli.kindle.entity.KindleBookEntity;
 import cn.wanli.kindle.entity.PaginationData;
 
 /**
@@ -36,6 +36,6 @@ public interface KindleBookService {
      * @param keyword     搜索关键字
      * @return 分页数据 {@link PaginationData}
      */
-    PaginationData<KindleBook> pageBooks(int requestPage, int pageSize, String keyword);
+    PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword);
 
 }

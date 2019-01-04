@@ -47,7 +47,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<Group> findUser(Long id) {
+    public Optional<Group> findById(Long id) {
         return groupRepository.findById(id);
     }
 

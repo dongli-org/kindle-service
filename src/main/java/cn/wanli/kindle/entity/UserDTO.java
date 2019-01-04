@@ -34,11 +34,11 @@ import java.io.Serializable;
 public class UserDTO implements Serializable {
     @ApiModelProperty("用户ID")
     private String id;
-    @ApiModelProperty("用户姓名")
+    @ApiModelProperty(value = "用户姓名", example = "wanli")
     private String name;
     @ApiModelProperty("用户密码")
     private String password;
-    @ApiModelProperty("用户邮箱地址")
+    @ApiModelProperty(value = "用户邮箱地址", example = "wanlinus@qq.com", required = true)
     private String email;
 
     public String getId() {

@@ -32,9 +32,15 @@ public interface GroupService {
      * 保存 group
      *
      * @param group see {@link Group}
-     * @return
+     * @return 保存的Group
      */
     Group save(Group group);
 
-    Optional<Group> findUser(Long id);
+    /**
+     * 通过Group id查找Group
+     *
+     * @param id group id
+     * @return {@link Group} group
+     */
+    Optional<Group> findById(Long id);
 }

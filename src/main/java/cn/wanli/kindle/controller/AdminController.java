@@ -19,31 +19,29 @@
 
 package cn.wanli.kindle.controller;
 
-import cn.wanli.kindle.entity.KindleBookEntity;
-import cn.wanli.kindle.entity.PaginationData;
-import cn.wanli.kindle.service.KindleBookService;
+import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.service.GroupService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author wanli
- * @date 2018-12-07 11:00
+ * @date 2019-01-04 10:57
  */
 @RestController
-@RequestMapping("/v1/kindles")
-public class KindleController {
+@RequestMapping("/vi/admin")
+@Api("管理员相关操作")
+public class AdminController {
 
     @Autowired
-    private KindleBookService bookService;
+    private GroupService groupService;
 
-    @GetMapping
-    public PaginationData<KindleBookEntity> pageKindleSource(@RequestParam(defaultValue = "1") int requestPage,
-                                                             @RequestParam(defaultValue = "10") int pageSize,
-                                                             @RequestParam String keyword) {
-        return bookService.pageBooks(requestPage, pageSize, keyword);
+    @PostMapping("/groups")
+    public Group addGroup() {
+        return null;
     }
 
 }

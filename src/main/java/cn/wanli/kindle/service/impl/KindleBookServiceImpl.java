@@ -20,6 +20,7 @@
 package cn.wanli.kindle.service.impl;
 
 import cn.wanli.kindle.domain.KindleBook;
+import cn.wanli.kindle.entity.KindleBookEntity;
 import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.persistence.KindleBookRepository;
 import cn.wanli.kindle.service.KindleBookService;
@@ -31,6 +32,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author wanli
@@ -45,15 +50,18 @@ public class KindleBookServiceImpl implements KindleBookService {
     private KindleBookRepository bookRepository;
 
     @Override
-    public PaginationData<KindleBook> pageBooks(int requestPage, int pageSize, String keyword) {
-        PaginationData<KindleBook> data;
+    public PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword) {
+        PaginationData<KindleBookEntity> data;
         Page<KindleBook> page;
         if (Strings.isBlank(keyword)) {
             page = bookRepository.findAll(PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
         } else {
             page = bookRepository.findAllByNameContaining(keyword, PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
         }
-        data = new PaginationData<>(page.getNumber(), page.getSize(), page.getTotalElements(), page.getContent());
+        List<KindleBookEntity> entityList = page.getContent().stream()
+                .map(book -> new KindleBookEntity(book.getId(), book.getName(), book.getPicture(), book.getPath()))
+                .collect(toList());
+        data = new PaginationData<>(page.getNumber(), page.getSize(), page.getTotalElements(), entityList);
         return data;
     }
 }
