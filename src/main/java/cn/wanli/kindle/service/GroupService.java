@@ -21,6 +21,8 @@ package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.Group;
 import cn.wanli.kindle.entity.GroupEntity;
+import cn.wanli.kindle.entity.GroupUserEntity;
+import cn.wanli.kindle.entity.PaginationData;
 
 import java.util.Optional;
 
@@ -52,4 +54,31 @@ public interface GroupService {
      * @return 添加成功返回true, 否则返回false
      */
     GroupEntity addGroup(GroupEntity group);
+
+    /**
+     * 分页获取所有用户组
+     *
+     * @param requestPage 请求页
+     * @param pageSize    请求
+     * @param keyword     关键字
+     * @return {@link PaginationData} 通用分页数据
+     */
+    PaginationData<GroupEntity> paginationGroups(int requestPage, int pageSize, String keyword);
+
+    /**
+     * 根据id获取指定用户组
+     *
+     * @param gid 组id
+     * @return {@link GroupUserEntity} 包含用户信息的组数据
+     */
+    GroupUserEntity getGroup(Long gid);
+
+    /**
+     * 修改指定Group的信息
+     *
+     * @param gid         group id
+     * @param groupEntity {@link GroupEntity}
+     * @return 修改后的group信息
+     */
+    GroupEntity modifyGroup(Long gid, GroupEntity groupEntity);
 }

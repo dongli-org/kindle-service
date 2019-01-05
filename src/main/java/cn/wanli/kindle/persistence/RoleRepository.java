@@ -17,31 +17,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.utils;
+package cn.wanli.kindle.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
+import cn.wanli.kindle.domain.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author wanli
- * @date 2018-12-07 00:15
+ * @date 2019-01-06 00:07
  */
-public final class CommonsUtils {
-    private CommonsUtils() {
-        throw new AssertionError("工具类不用于实例化");
-    }
-
+public interface RoleRepository extends JpaRepository<Role, Long> {
     /**
-     * 验证是否为邮箱
+     * 分页模糊查找包含关键字用户角色
      *
-     * @param str 验证字符串
-     * @return 是邮箱返回true 否则返回false
+     * @param keyword  关键字
+     * @param pageable 分页信息
+     * @return {@link Role} 用户角色
      */
-    public static boolean isEmail(String str) {
-        if (str == null) {
-            return false;
-        }
-        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        return str.matches(regEx1);
-    }
+    Page<Role> findAllByNameContaining(String keyword, Pageable pageable);
 }

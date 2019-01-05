@@ -56,6 +56,14 @@ public class Group implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
     private List<Role> roles;
 
+    public Group() {
+    }
+
+    public Group(String name, String desc) {
+        this.name = name;
+        this.desc = desc;
+    }
+
     public Long getId() {
         return id;
     }

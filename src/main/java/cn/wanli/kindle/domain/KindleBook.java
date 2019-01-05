@@ -24,7 +24,6 @@ import com.alibaba.fastjson.JSON;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author wanli
@@ -50,8 +49,9 @@ public class KindleBook implements Serializable {
     @Column(name = "book_date")
     private LocalDateTime dateTime;
 
-    @OneToMany(mappedBy = "kindleBook")
-    private List<KindlePush> pushes;
+    @ManyToOne
+    @JoinColumn(name = "book_user_id", referencedColumnName = "user_id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -93,12 +93,12 @@ public class KindleBook implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public List<KindlePush> getPushes() {
-        return pushes;
+    public User getUser() {
+        return user;
     }
 
-    public void setPushes(List<KindlePush> pushes) {
-        this.pushes = pushes;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

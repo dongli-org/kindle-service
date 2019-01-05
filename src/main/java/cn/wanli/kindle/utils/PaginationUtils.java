@@ -19,29 +19,27 @@
 
 package cn.wanli.kindle.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author wanli
- * @date 2018-12-07 00:15
+ * @date 2019-01-05 21:40
  */
-public final class CommonsUtils {
-    private CommonsUtils() {
-        throw new AssertionError("工具类不用于实例化");
+public final class PaginationUtils {
+    private PaginationUtils() {
+        throw new AssertionError();
     }
 
-    /**
-     * 验证是否为邮箱
-     *
-     * @param str 验证字符串
-     * @return 是邮箱返回true 否则返回false
-     */
-    public static boolean isEmail(String str) {
-        if (str == null) {
-            return false;
+    public static <R> Page<R> getPaginationData(PageInterface<R> f1, PageKeyInterface<R> f2,
+                                                Integer requestPage, Integer pageSize, String keyword) {
+        Page<R> page;
+        if (Strings.isBlank(keyword)) {
+            page = f1.page(PageRequest.of(requestPage, pageSize));
+        } else {
+            page = f2.page(PageRequest.of(requestPage, pageSize), keyword);
         }
-        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        return str.matches(regEx1);
+        return page;
     }
 }

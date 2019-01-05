@@ -17,31 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.utils;
-
-import java.util.ArrayList;
-import java.util.List;
+package cn.wanli.kindle.domain.enums;
 
 /**
  * @author wanli
- * @date 2018-12-07 00:15
+ * @date 2019-01-05 21:14
  */
-public final class CommonsUtils {
-    private CommonsUtils() {
-        throw new AssertionError("工具类不用于实例化");
-    }
-
+public enum TaskStatus {
     /**
-     * 验证是否为邮箱
-     *
-     * @param str 验证字符串
-     * @return 是邮箱返回true 否则返回false
+     * task status
      */
-    public static boolean isEmail(String str) {
-        if (str == null) {
-            return false;
-        }
-        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        return str.matches(regEx1);
-    }
+    WAITING,
+    COMPLETED,
+    ERROR;
 }

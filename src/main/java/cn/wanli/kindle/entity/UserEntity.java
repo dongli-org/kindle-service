@@ -19,29 +19,26 @@
 
 package cn.wanli.kindle.entity;
 
-import com.alibaba.fastjson.JSON;
-
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * @author wanli
- * @date 2019-01-05 02:21
+ * @date 2019-01-05 22:51
  */
-public class GroupEntity {
+public class UserEntity {
     private Long id;
-
-    @NotBlank
     private String name;
+    private String email;
+    private List<String> groups;
+    private List<String> roles;
 
-    private String desc;
-
-    public GroupEntity() {
+    public UserEntity() {
     }
 
-    public GroupEntity(Long id, @NotBlank String name, String desc) {
+    public UserEntity(Long id, String name, String email) {
         this.id = id;
         this.name = name;
-        this.desc = desc;
+        this.email = email;
     }
 
     public Long getId() {
@@ -60,16 +57,27 @@ public class GroupEntity {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

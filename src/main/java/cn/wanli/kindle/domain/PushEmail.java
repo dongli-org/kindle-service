@@ -23,29 +23,31 @@ import com.alibaba.fastjson.JSON;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:39
+ * @date 2019-01-05 17:11
  */
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
-
+@Table(name = "push_email")
+public class PushEmail implements Serializable {
     @Id
-    @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "push_id")
     private Long id;
 
-    @Column(name = "role_name", length = 32, nullable = false)
-    private String name;
+    @Column(name = "push_email")
+    private String email;
 
-    @Column(name = "role_desc", length = 64)
-    private String desc;
+    @Column(name = "push_password")
+    private String password;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Group> groups;
+    @ManyToOne
+    @JoinColumn(name = "push_user_id", referencedColumnName = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "push_type", referencedColumnName = "email_id")
+    private OfficialEmail officialEmail;
 
     public Long getId() {
         return id;
@@ -55,28 +57,36 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public User getUser() {
+        return user;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public OfficialEmail getOfficialEmail() {
+        return officialEmail;
+    }
+
+    public void setOfficialEmail(OfficialEmail officialEmail) {
+        this.officialEmail = officialEmail;
     }
 
     @Override

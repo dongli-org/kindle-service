@@ -19,14 +19,12 @@
 
 package cn.wanli.kindle.service.impl;
 
-import cn.wanli.kindle.domain.KindleBook;
-import cn.wanli.kindle.entity.KindleBookEntity;
+import cn.wanli.kindle.domain.Role;
 import cn.wanli.kindle.entity.PaginationData;
-import cn.wanli.kindle.persistence.KindleBookRepository;
-import cn.wanli.kindle.service.KindleBookService;
+import cn.wanli.kindle.entity.RoleEntity;
+import cn.wanli.kindle.persistence.RoleRepository;
+import cn.wanli.kindle.service.RoleService;
 import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,28 +37,26 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * @author wanli
- * @date 2019-01-04 00:59
+ * @date 2019-01-06 00:04
  */
 @Service
-public class KindleBookServiceImpl implements KindleBookService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(KindleBookServiceImpl.class);
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private KindleBookRepository bookRepository;
+    private RoleRepository roleRepository;
 
     @Override
-    public PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword) {
-        PaginationData<KindleBookEntity> data;
-        Page<KindleBook> page;
+    public PaginationData<RoleEntity> pageRoles(int requestPage, int pageSize, String keyword) {
+        PaginationData<RoleEntity> data;
+        Page<Role> page;
         if (Strings.isBlank(keyword)) {
-            page = bookRepository.findAll(PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
+            page = roleRepository.findAll(PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
         } else {
-            page = bookRepository.findAllByNameContaining(keyword,
+            page = roleRepository.findAllByNameContaining(keyword,
                     PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
         }
-        List<KindleBookEntity> entityList = page.getContent().stream()
-                .map(book -> new KindleBookEntity(book.getId(), book.getName(), book.getPicture(), book.getPath()))
+        List<RoleEntity> entityList = page.getContent().stream()
+                .map(r -> new RoleEntity(r.getId(), r.getName(), r.getDesc()))
                 .collect(toList());
         data = new PaginationData<>(page.getNumber(), page.getSize(), page.getTotalElements(), entityList);
         return data;

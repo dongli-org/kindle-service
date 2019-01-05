@@ -20,6 +20,8 @@
 package cn.wanli.kindle.persistence;
 
 import cn.wanli.kindle.domain.Group;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -36,4 +38,14 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
      * @return {@link Group}
      */
     Optional<Group> findByName(String name);
+
+
+    /**
+     * 模糊查找Group
+     *
+     * @param keyword  查找条件
+     * @param pageable 分页条件
+     * @return {@link Group} 用户组
+     */
+    Page<Group> findAllByNameContaining(String keyword, Pageable pageable);
 }

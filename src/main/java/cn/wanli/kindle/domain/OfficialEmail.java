@@ -17,32 +17,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.entity;
+package cn.wanli.kindle.domain;
 
 import com.alibaba.fastjson.JSON;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
+ * 平台支持的邮件提供方
+ *
  * @author wanli
- * @date 2019-01-05 02:21
+ * @date 2019-01-05 20:16
  */
-public class GroupEntity {
+@Entity
+@Table(name = "tb_mail")
+public class OfficialEmail {
+    @Id
+    @Column(name = "email_id")
     private Long id;
 
-    @NotBlank
+    @Column(name = "email_name", length = 32, nullable = false)
     private String name;
 
-    private String desc;
-
-    public GroupEntity() {
-    }
-
-    public GroupEntity(Long id, @NotBlank String name, String desc) {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-    }
+    @Column(name = "email_host", length = 64, nullable = false)
+    private String host;
 
     public Long getId() {
         return id;
@@ -60,12 +61,12 @@ public class GroupEntity {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getHost() {
+        return host;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     @Override
