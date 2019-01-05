@@ -38,7 +38,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 1000;
+    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 1000L;
 
     @Value("${kindle.kv.signing-key}")
     private String signingKey;
