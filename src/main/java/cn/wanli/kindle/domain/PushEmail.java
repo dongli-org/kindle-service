@@ -29,7 +29,7 @@ import java.io.Serializable;
  * @date 2019-01-05 17:11
  */
 @Entity
-@Table(name = "push_email")
+@Table(name = "tb_push_email")
 public class PushEmail implements Serializable {
     @Id
     @Column(name = "push_id")

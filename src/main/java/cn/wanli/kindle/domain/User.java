@@ -81,7 +81,10 @@ public class User implements Serializable {
     /**
      * 用户所属组
      */
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tb_user_role",
+            joinColumns = {@JoinColumn(name = "ur_user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "ur_role_id")})
     private List<Role> roles;
 
     public User() {

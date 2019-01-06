@@ -44,7 +44,10 @@ public class Permission implements Serializable {
     @Column(name = "per_desc", length = 64)
     private String desc;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tb_role_per",
+            joinColumns = {@JoinColumn(name = "rp_per_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rp_role_id")})
     private List<Role> roles;
 
     public Permission() {

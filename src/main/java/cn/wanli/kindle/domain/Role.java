@@ -44,7 +44,7 @@ public class Role implements Serializable {
     @Column(name = "role_desc", length = 64)
     private String desc;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(name = "tb_user_role",
             joinColumns = {@JoinColumn(name = "ur_role_id")},
             inverseJoinColumns = {@JoinColumn(name = "ur_user_id")})

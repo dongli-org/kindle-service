@@ -79,7 +79,7 @@ public class JwtTokenUtil implements Serializable {
         //一个小时
         long expired = now + ACCESS_TOKEN_VALIDITY_SECONDS;
         Map<String, Object> claims = new HashMap<>(16);
-        claims.put("permission", user.getAuthorities());
+        claims.put("roles", user.getAuthorities());
         claims.put("uid", jwtUser.getId());
         return Jwts.builder()
                 .setClaims(claims)

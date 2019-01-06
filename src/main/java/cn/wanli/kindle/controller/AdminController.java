@@ -45,8 +45,8 @@ public class AdminController {
 
     @GetMapping("/roles/{rid}")
     @ApiOperation("获取指定的用户角色")
-    public ResponseEntity getRole(@PathVariable Long gid) {
-        return ResponseEntity.ok(roleService.getRole(gid));
+    public ResponseEntity getRole(@PathVariable Long rid) {
+        return ResponseEntity.ok(roleService.getRole(rid));
     }
 
     @GetMapping("/roles")

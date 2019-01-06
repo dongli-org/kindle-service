@@ -22,6 +22,7 @@ package cn.wanli.kindle.domain;
 import com.alibaba.fastjson.JSON;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 平台支持的邮件提供方
@@ -31,7 +32,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_mail")
-public class OfficialEmail {
+public class OfficialEmail implements Serializable {
     @Id
     @Column(name = "email_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

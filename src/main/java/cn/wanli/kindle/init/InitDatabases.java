@@ -19,11 +19,11 @@
 
 package cn.wanli.kindle.init;
 
-import cn.wanli.kindle.domain.Role;
 import cn.wanli.kindle.domain.Permission;
+import cn.wanli.kindle.domain.Role;
 import cn.wanli.kindle.domain.User;
-import cn.wanli.kindle.persistence.RoleRepository;
 import cn.wanli.kindle.persistence.PermissionRepository;
+import cn.wanli.kindle.persistence.RoleRepository;
 import cn.wanli.kindle.persistence.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -60,7 +61,6 @@ public class InitDatabases implements CommandLineRunner {
     @Transactional(rollbackFor = Exception.class)
     public void run(String... args) throws Exception {
         this.initUser();
-        this.initRoles();
     }
 
 
@@ -70,23 +70,22 @@ public class InitDatabases implements CommandLineRunner {
             user.setAccountNonExpired(true);
             user.setEnabled(true);
             user.setSystemPush(true);
-            userRepository.save(user);
+            User userSave = userRepository.save(user);
             LOGGER.info("----- 初始化用户表完成-----");
-        }
-    }
+            List<Role> roles = new ArrayList<>();
+            roles.add(new Role("ADMIN", "超级管理员"));
+            roles.add(new Role("USER", "普通用户"));
+            List<Role> roleSave = roleRepository.saveAll(roles);
 
-    private void initRoles() {
-        if (roleRepository.findAll().isEmpty()) {
-            Role role = new Role("admin", "admin");
-            userRepository.findByName("wanli").ifPresent(user -> role.setUsers(Collections.singletonList(user)));
-            roleRepository.save(role);
+            userSave.setRoles(roleSave);
+
             LOGGER.info("----- 初始化用户组完成 -----");
-        }
-    }
-
-    private void initPermission() {
-        if (permissionRepository.findAll().isEmpty()) {
-            Permission permission = new Permission();
+            List<Permission> permissions = new ArrayList<>();
+            permissions.add(new Permission("addUser", "新增用户"));
+            permissions.add(new Permission("delUser", "删除用户"));
+            List<Permission> perSave = permissionRepository.saveAll(permissions);
+            roleSave.get(0).setPermissions(perSave);
+            LOGGER.info("----- 初始化用户权限完成 ---");
         }
     }
 }
