@@ -17,28 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.utils;
 
-import com.alibaba.fastjson.JSON;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author wanli
- * @date 2018-12-06 22:51
+ * @date 2019-01-05 22:07
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class GroupServiceTest {
+@FunctionalInterface
+public interface PageKeyInterface<R> {
+    Page<R> page(PageRequest request, String key);
 
-    @Test
-    public void save() {
-    }
-
-    @Test
-    public void findUser() {
-    }
 }

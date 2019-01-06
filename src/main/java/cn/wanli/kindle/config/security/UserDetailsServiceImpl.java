@@ -19,7 +19,6 @@
 
 package cn.wanli.kindle.config.security;
 
-import cn.wanli.kindle.domain.Group;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.exception.ResourceNotFoundException;
 import cn.wanli.kindle.persistence.UserRepository;
@@ -30,7 +29,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,12 +57,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return userOpt.map(user -> {
-            List<SimpleGrantedAuthority> authes = user.getGroups().stream()
-                    .map(Group::getRoles)
-                    .flatMap(Collection::stream)
+            List<SimpleGrantedAuthority> auths = user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                     .collect(toList());
-            return new JwtUser(user.getId(), user.getName(), user.getPassword(), user.getEmail(), authes, user.getEnabled());
+            return new JwtUser(user.getId(), user.getName(), user.getPassword(), user.getEmail(), auths, user.getEnabled());
         }).orElseThrow(() -> new ResourceNotFoundException(String.format("查找的用户不存在: %s", username)));
     }
 }

@@ -28,10 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author wanli
@@ -48,12 +44,13 @@ public class ValidUserAspect {
 
     @Pointcut("@annotation(cn.wanli.kindle.annotation.ValidUser)")
     public void validInfo() {
+        // 需要验证用户信息的切点
     }
 
     @Around("validInfo()")
     public Object val(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String jwtToken = request.getHeader("Authentication");
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        String jwtToken = request.getHeader("Authentication");
         return joinPoint.proceed();
     }
 

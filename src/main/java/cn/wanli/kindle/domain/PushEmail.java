@@ -23,35 +23,32 @@ import com.alibaba.fastjson.JSON;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author wanli
- * @date 2018-12-06 17:25
+ * @date 2019-01-05 17:11
  */
 @Entity
-@Table(name = "tb_kdbook")
-public class KindleBook implements Serializable {
+@Table(name = "tb_push_email")
+public class PushEmail implements Serializable {
     @Id
-    @Column(name = "book_id")
+    @Column(name = "push_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "book_name")
-    private String name;
+    @Column(name = "push_email")
+    private String email;
 
-    @Column(name = "book_pic")
-    private String picture;
-
-    @Column(name = "book_path")
-    private String path;
-
-    @Column(name = "book_date")
-    private LocalDateTime dateTime;
+    @Column(name = "push_password")
+    private String password;
 
     @ManyToOne
-    @JoinColumn(name = "book_user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "push_user_id", referencedColumnName = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "push_type", referencedColumnName = "email_id")
+    private OfficialEmail officialEmail;
 
     public Long getId() {
         return id;
@@ -61,36 +58,20 @@ public class KindleBook implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public User getUser() {
@@ -99,6 +80,14 @@ public class KindleBook implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public OfficialEmail getOfficialEmail() {
+        return officialEmail;
+    }
+
+    public void setOfficialEmail(OfficialEmail officialEmail) {
+        this.officialEmail = officialEmail;
     }
 
     @Override

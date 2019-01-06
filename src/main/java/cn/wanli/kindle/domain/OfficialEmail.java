@@ -23,46 +23,26 @@ import com.alibaba.fastjson.JSON;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
+ * 平台支持的邮件提供方
+ *
  * @author wanli
- * @date 2018-12-06 21:30
+ * @date 2019-01-05 20:16
  */
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
-
+@Table(name = "tb_mail")
+public class OfficialEmail implements Serializable {
     @Id
-    @Column(name = "role_id")
+    @Column(name = "email_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name", length = 32, unique = true, nullable = false)
+    @Column(name = "email_name", length = 32, nullable = false)
     private String name;
 
-    @Column(name = "role_desc", length = 64)
-    private String desc;
-
-    @ManyToMany
-    @JoinTable(name = "tb_user_role",
-            joinColumns = {@JoinColumn(name = "ur_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ur_user_id")})
-    private List<User> users;
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_role_per",
-            joinColumns = {@JoinColumn(name = "rp_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "rp_per_id")})
-    private List<Permission> permissions;
-
-    public Role() {
-    }
-
-    public Role(String name, String desc) {
-        this.name = name;
-        this.desc = desc;
-    }
+    @Column(name = "email_host", length = 64, nullable = false)
+    private String host;
 
     public Long getId() {
         return id;
@@ -80,28 +60,12 @@ public class Role implements Serializable {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getHost() {
+        return host;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     @Override

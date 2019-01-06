@@ -19,12 +19,33 @@
 
 package cn.wanli.kindle.persistence;
 
-import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.domain.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 /**
  * @author wanli
  * @date 2018-12-06 22:47
  */
-public interface GroupRepository extends JpaRepository<Group, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    /**
+     * 通过名字来查找角色
+     *
+     * @param name 角色名
+     * @return {@link Role}
+     */
+    Optional<Role> findByName(String name);
+
+
+    /**
+     * 模糊查找用户角色
+     *
+     * @param keyword  查找条件
+     * @param pageable 分页条件
+     * @return {@link Role} 用户角色
+     */
+    Page<Role> findAllByNameContaining(String keyword, Pageable pageable);
 }

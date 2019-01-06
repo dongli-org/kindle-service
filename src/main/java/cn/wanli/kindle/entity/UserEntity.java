@@ -17,39 +17,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.domain;
+package cn.wanli.kindle.entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:30
+ * @date 2019-01-05 22:51
  */
-@Entity
-@Table(name = "tb_group")
-public class Group implements Serializable {
-
-    @Id
-    @Column(name = "group_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserEntity {
     private Long id;
-
-    @Column(name = "group_name", length = 32, unique = true, nullable = false)
     private String name;
+    private String email;
+    private List<String> roles;
+    private List<String> permissions;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_user_group",
-            joinColumns = {@JoinColumn(name = "ug_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ug_user_id")})
-    private List<User> users;
+    public UserEntity() {
+    }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_group_role",
-            joinColumns = {@JoinColumn(name = "gr_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
-    private List<Role> roles;
+    public UserEntity(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -67,19 +57,27 @@ public class Group implements Serializable {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
     }
 }

@@ -17,25 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.utils;
 
-import cn.wanli.kindle.entity.KindleBookEntity;
-import cn.wanli.kindle.entity.PaginationData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author wanli
- * @date 2019-01-04 00:59
+ * @date 2019-01-05 21:46
  */
-public interface KindleBookService {
-
-    /**
-     * 获取分页kindle书籍
-     *
-     * @param requestPage 请求页数
-     * @param pageSize    每页数据量
-     * @param keyword     搜索关键字
-     * @return 分页数据 {@link PaginationData}
-     */
-    PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword);
-
+@FunctionalInterface
+public interface PageInterface<R> {
+    Page<R> page(PageRequest request);
 }

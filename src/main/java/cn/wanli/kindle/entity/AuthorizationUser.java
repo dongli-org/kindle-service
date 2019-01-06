@@ -19,6 +19,9 @@
 
 package cn.wanli.kindle.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -27,10 +30,14 @@ import javax.validation.constraints.NotBlank;
  * @author wanli
  * @date 2018-12-31 01:47
  */
+@ApiModel(value = "AuthorizationUser", description = "需要认证的用户信息")
 public class AuthorizationUser {
     @NotBlank
+    @ApiModelProperty(value = "用户昵称或邮箱地址", required = true, example = "wanli/wanlinus@qq.com")
     private String username;
+
     @NotBlank
+    @ApiModelProperty(value = "登陆密码", required = true)
     private String password;
 
     public String getUsername() {

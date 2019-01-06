@@ -27,39 +27,33 @@ import java.util.List;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:30
+ * @date 2018-12-06 21:39
  */
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
+@Table(name = "tb_permission")
+public class Permission implements Serializable {
 
     @Id
-    @Column(name = "role_id")
+    @Column(name = "per_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name", length = 32, unique = true, nullable = false)
+    @Column(name = "per_name", length = 32, nullable = false)
     private String name;
 
-    @Column(name = "role_desc", length = 64)
+    @Column(name = "per_desc", length = 64)
     private String desc;
 
-    @ManyToMany
-    @JoinTable(name = "tb_user_role",
-            joinColumns = {@JoinColumn(name = "ur_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ur_user_id")})
-    private List<User> users;
-
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "tb_role_per",
-            joinColumns = {@JoinColumn(name = "rp_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "rp_per_id")})
-    private List<Permission> permissions;
+            joinColumns = {@JoinColumn(name = "rp_per_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rp_role_id")})
+    private List<Role> roles;
 
-    public Role() {
+    public Permission() {
     }
 
-    public Role(String name, String desc) {
+    public Permission(String name, String desc) {
         this.name = name;
         this.desc = desc;
     }
@@ -88,20 +82,12 @@ public class Role implements Serializable {
         this.desc = desc;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -17,41 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.domain;
-
-import com.alibaba.fastjson.JSON;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+package cn.wanli.kindle.entity;
 
 /**
  * @author wanli
- * @date 2018-12-06 17:25
+ * @date 2019-01-04 13:45
  */
-@Entity
-@Table(name = "tb_kdbook")
-public class KindleBook implements Serializable {
-    @Id
-    @Column(name = "book_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class KindleBookEntity {
     private Long id;
-
-    @Column(name = "book_name")
     private String name;
-
-    @Column(name = "book_pic")
     private String picture;
-
-    @Column(name = "book_path")
     private String path;
 
-    @Column(name = "book_date")
-    private LocalDateTime dateTime;
+    public KindleBookEntity() {
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "book_user_id", referencedColumnName = "user_id")
-    private User user;
+    public KindleBookEntity(Long id, String name, String picture, String path) {
+        this.id = id;
+        this.name = name;
+        this.picture = picture;
+        this.path = path;
+    }
 
     public Long getId() {
         return id;
@@ -83,26 +69,5 @@ public class KindleBook implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 }

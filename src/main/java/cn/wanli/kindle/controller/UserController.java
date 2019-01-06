@@ -88,6 +88,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("用户登陆")
+    @ApiImplicitParam(name = "user", value = "用户登陆认证信息", dataTypeClass = AuthorizationUser.class)
     public ResponseEntity login(@RequestBody AuthorizationUser user, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldErrors());
@@ -104,6 +105,8 @@ public class UserController {
     }
 
     @PutMapping
+    @ApiOperation("修改账号信息")
+    @ApiImplicitParam(name = "dto", value = "用户修改信息", dataTypeClass = UserDTO.class)
     public ResponseEntity modifyAccount(@RequestBody UserDTO dto, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
@@ -112,6 +115,8 @@ public class UserController {
     }
 
     @PutMapping("nickname")
+    @ApiOperation("修改用户昵称")
+    @ApiImplicitParam(name = "nickname")
     public ResponseEntity modifyNickname(String nickname, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
@@ -120,7 +125,9 @@ public class UserController {
     }
 
     @PutMapping("password")
-    public ResponseEntity modifyPassword(@RequestBody PasswordEntity entity, HttpServletRequest request) {
+    @ApiOperation("修改密码")
+    @ApiImplicitParam(name = "entity", value = "新旧密码", dataTypeClass = PasswordEntity.class)
+    public ResponseEntity<Boolean> modifyPassword(@RequestBody PasswordEntity entity, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
         return ResponseEntity.ok(userService.modifyPassword(id, entity));

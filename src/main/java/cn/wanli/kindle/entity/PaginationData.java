@@ -25,6 +25,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 通用分页数据
+ *
  * @author wanli
  * @date 2019-01-04 00:49
  */
