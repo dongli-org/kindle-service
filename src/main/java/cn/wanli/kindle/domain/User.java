@@ -58,13 +58,13 @@ public class User implements Serializable {
      * 是否可用
      */
     @Column(name = "user_enabled", nullable = false)
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     /**
      * 是否系统推送
      */
     @Column(name = "user_sys_push")
-    private Boolean systemPush;
+    private Boolean systemPush = false;
 
     /**
      * 账户是否过期
@@ -81,8 +81,11 @@ public class User implements Serializable {
     /**
      * 用户所属组
      */
-    @ManyToMany(mappedBy = "users")
-    private List<Group> groups;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tb_user_role",
+            joinColumns = {@JoinColumn(name = "ur_user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "ur_role_id")})
+    private List<Role> roles;
 
     public User() {
     }
@@ -165,12 +168,12 @@ public class User implements Serializable {
         this.kindles = kindles;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

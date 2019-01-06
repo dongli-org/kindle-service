@@ -19,10 +19,14 @@
 
 package cn.wanli.kindle.domain;
 
+import com.alibaba.fastjson.JSON;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
+ * Kindle 设备信息
+ *
  * @author wanli
  * @date 2018-12-06 21:15
  */
@@ -34,11 +38,11 @@ public class Kindle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "kd_email")
-    private String email;
+    @Column(name = "kd_name", length = 32)
+    private String kindleName;
 
-    @Column(name = "kd_password")
-    private String password;
+    @Column(name = "kd_email", length = 128)
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "kd_user_id", referencedColumnName = "user_id")
@@ -52,6 +56,14 @@ public class Kindle implements Serializable {
         this.id = id;
     }
 
+    public String getKindleName() {
+        return kindleName;
+    }
+
+    public void setKindleName(String kindleName) {
+        this.kindleName = kindleName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -60,19 +72,16 @@ public class Kindle implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

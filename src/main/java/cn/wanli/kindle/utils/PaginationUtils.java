@@ -17,38 +17,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service.impl;
+package cn.wanli.kindle.utils;
 
-import cn.wanli.kindle.domain.Group;
-import cn.wanli.kindle.persistence.GroupRepository;
-import cn.wanli.kindle.service.GroupService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author wanli
- * @date 2018-12-06 22:48
+ * @date 2019-01-05 21:40
  */
-@Service
-public class GroupServiceImpl implements GroupService {
-
-    private final GroupRepository groupRepository;
-
-    @Autowired
-    public GroupServiceImpl(GroupRepository groupRepository) {
-        this.groupRepository = groupRepository;
+public final class PaginationUtils {
+    private PaginationUtils() {
+        throw new AssertionError();
     }
 
-    @Override
-    public Group save(Group group) {
-        return groupRepository.save(group);
+    public static <R> Page<R> getPaginationData(PageInterface<R> f1, PageKeyInterface<R> f2,
+                                                Integer requestPage, Integer pageSize, String keyword) {
+        Page<R> page;
+        if (Strings.isBlank(keyword)) {
+            page = f1.page(PageRequest.of(requestPage, pageSize));
+        } else {
+            page = f2.page(PageRequest.of(requestPage, pageSize), keyword);
+        }
+        return page;
     }
-
-    @Override
-    public Optional<Group> findUser(Long id) {
-        return groupRepository.findById(id);
-    }
-
 }

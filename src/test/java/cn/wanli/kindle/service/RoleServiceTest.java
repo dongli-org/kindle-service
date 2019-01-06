@@ -19,23 +19,24 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.entity.KindleBookEntity;
-import cn.wanli.kindle.entity.PaginationData;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author wanli
- * @date 2019-01-04 00:59
+ * @date 2018-12-06 22:51
  */
-public interface KindleBookService {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RoleServiceTest {
 
-    /**
-     * 获取分页kindle书籍
-     *
-     * @param requestPage 请求页数
-     * @param pageSize    每页数据量
-     * @param keyword     搜索关键字
-     * @return 分页数据 {@link PaginationData}
-     */
-    PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword);
+    @Test
+    public void save() {
+    }
 
+    @Test
+    public void findUser() {
+    }
 }

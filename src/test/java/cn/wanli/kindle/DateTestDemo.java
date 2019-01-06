@@ -65,4 +65,15 @@ public class DateTestDemo {
         System.out.println(passwordEncoder.matches("asd", asd));
 
     }
+
+    @Test
+    public void aa() {
+        int a = 0;
+        aaa(a);
+        System.out.println(a);
+    }
+
+    private void aaa(int a) {
+        a = 5;
+    }
 }

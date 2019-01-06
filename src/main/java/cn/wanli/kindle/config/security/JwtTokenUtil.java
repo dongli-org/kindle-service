@@ -38,7 +38,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 1000;
+    private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 1000L;
 
     @Value("${kindle.kv.signing-key}")
     private String signingKey;
@@ -79,7 +79,7 @@ public class JwtTokenUtil implements Serializable {
         //一个小时
         long expired = now + ACCESS_TOKEN_VALIDITY_SECONDS;
         Map<String, Object> claims = new HashMap<>(16);
-        claims.put("role", user.getAuthorities());
+        claims.put("roles", user.getAuthorities());
         claims.put("uid", jwtUser.getId());
         return Jwts.builder()
                 .setClaims(claims)

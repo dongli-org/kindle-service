@@ -17,25 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
-
-import cn.wanli.kindle.entity.KindleBookEntity;
-import cn.wanli.kindle.entity.PaginationData;
+package cn.wanli.kindle.domain.enums;
 
 /**
  * @author wanli
- * @date 2019-01-04 00:59
+ * @date 2019-01-05 21:14
  */
-public interface KindleBookService {
-
+public enum TaskStatus {
     /**
-     * 获取分页kindle书籍
-     *
-     * @param requestPage 请求页数
-     * @param pageSize    每页数据量
-     * @param keyword     搜索关键字
-     * @return 分页数据 {@link PaginationData}
+     * task status
      */
-    PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword);
-
+    WAITING,
+    COMPLETED,
+    ERROR;
 }
