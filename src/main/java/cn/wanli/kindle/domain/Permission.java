@@ -45,7 +45,7 @@ public class Permission implements Serializable {
     private String desc;
 
     @ManyToMany(mappedBy = "permissions")
-    private List<Group> groups;
+    private List<Role> roles;
 
     public Permission() {
     }
@@ -79,12 +79,12 @@ public class Permission implements Serializable {
         this.desc = desc;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

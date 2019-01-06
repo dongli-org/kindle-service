@@ -25,16 +25,16 @@ import java.util.List;
  * @author wanli
  * @date 2019-01-05 22:50
  */
-public class GroupUserEntity {
+public class RoleUserEntity {
     private Long id;
     private String name;
     private String desc;
     private List<UserEntity> users;
 
-    public GroupUserEntity() {
+    public RoleUserEntity() {
     }
 
-    public GroupUserEntity(Long id, String name, String desc) {
+    public RoleUserEntity(Long id, String name, String desc) {
         this.id = id;
         this.name = name;
         this.desc = desc;

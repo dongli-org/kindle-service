@@ -19,10 +19,10 @@
 
 package cn.wanli.kindle.init;
 
-import cn.wanli.kindle.domain.Group;
+import cn.wanli.kindle.domain.Role;
 import cn.wanli.kindle.domain.Permission;
 import cn.wanli.kindle.domain.User;
-import cn.wanli.kindle.persistence.GroupRepository;
+import cn.wanli.kindle.persistence.RoleRepository;
 import cn.wanli.kindle.persistence.PermissionRepository;
 import cn.wanli.kindle.persistence.UserRepository;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class InitDatabases implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private GroupRepository groupRepository;
+    private RoleRepository roleRepository;
     @Autowired
     private PermissionRepository permissionRepository;
 
@@ -60,7 +60,7 @@ public class InitDatabases implements CommandLineRunner {
     @Transactional(rollbackFor = Exception.class)
     public void run(String... args) throws Exception {
         this.initUser();
-        this.initGroup();
+        this.initRoles();
     }
 
 
@@ -75,11 +75,11 @@ public class InitDatabases implements CommandLineRunner {
         }
     }
 
-    private void initGroup() {
-        if (groupRepository.findAll().isEmpty()) {
-            Group group = new Group("admin", "admin");
-            userRepository.findByName("wanli").ifPresent(user -> group.setUsers(Collections.singletonList(user)));
-            groupRepository.save(group);
+    private void initRoles() {
+        if (roleRepository.findAll().isEmpty()) {
+            Role role = new Role("admin", "admin");
+            userRepository.findByName("wanli").ifPresent(user -> role.setUsers(Collections.singletonList(user)));
+            roleRepository.save(role);
             LOGGER.info("----- 初始化用户组完成 -----");
         }
     }

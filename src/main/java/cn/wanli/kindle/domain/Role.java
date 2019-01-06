@@ -30,36 +30,36 @@ import java.util.List;
  * @date 2018-12-06 21:30
  */
 @Entity
-@Table(name = "tb_group")
-public class Group implements Serializable {
+@Table(name = "tb_role")
+public class Role implements Serializable {
 
     @Id
-    @Column(name = "group_id")
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_name", length = 32, unique = true, nullable = false)
+    @Column(name = "role_name", length = 32, unique = true, nullable = false)
     private String name;
 
-    @Column(name = "group_desc", length = 64)
+    @Column(name = "role_desc", length = 64)
     private String desc;
 
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_user_group",
-            joinColumns = {@JoinColumn(name = "ug_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ug_user_id")})
+    @JoinTable(name = "tb_user_role",
+            joinColumns = {@JoinColumn(name = "ur_role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "ur_user_id")})
     private List<User> users;
 
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_group_per",
-            joinColumns = {@JoinColumn(name = "gp_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "gp_per_id")})
+    @JoinTable(name = "tb_role_per",
+            joinColumns = {@JoinColumn(name = "rp_role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rp_per_id")})
     private List<Permission> permissions;
 
-    public Group() {
+    public Role() {
     }
 
-    public Group(String name, String desc) {
+    public Role(String name, String desc) {
         this.name = name;
         this.desc = desc;
     }

@@ -17,35 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.persistence;
+package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.domain.Group;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author wanli
- * @date 2018-12-06 22:47
+ * @date 2018-12-06 22:51
  */
-public interface GroupRepository extends JpaRepository<Group, Long> {
-    /**
-     * 通过名字来查找组
-     *
-     * @param name 组名字
-     * @return {@link Group}
-     */
-    Optional<Group> findByName(String name);
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RoleServiceTest {
 
+    @Test
+    public void save() {
+    }
 
-    /**
-     * 模糊查找Group
-     *
-     * @param keyword  查找条件
-     * @param pageable 分页条件
-     * @return {@link Group} 用户组
-     */
-    Page<Group> findAllByNameContaining(String keyword, Pageable pageable);
+    @Test
+    public void findUser() {
+    }
 }

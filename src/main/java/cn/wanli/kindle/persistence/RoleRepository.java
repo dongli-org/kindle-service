@@ -17,28 +17,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
+package cn.wanli.kindle.persistence;
 
-import com.alibaba.fastjson.JSON;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
+import cn.wanli.kindle.domain.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 /**
  * @author wanli
- * @date 2018-12-06 22:51
+ * @date 2018-12-06 22:47
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class GroupServiceTest {
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    /**
+     * 通过名字来查找角色
+     *
+     * @param name 角色名
+     * @return {@link Role}
+     */
+    Optional<Role> findByName(String name);
 
-    @Test
-    public void save() {
-    }
 
-    @Test
-    public void findUser() {
-    }
+    /**
+     * 模糊查找用户角色
+     *
+     * @param keyword  查找条件
+     * @param pageable 分页条件
+     * @return {@link Role} 用户角色
+     */
+    Page<Role> findAllByNameContaining(String keyword, Pageable pageable);
 }

@@ -19,10 +19,10 @@
 
 package cn.wanli.kindle.controller;
 
-import cn.wanli.kindle.entity.GroupEntity;
 import cn.wanli.kindle.entity.PermissionEntity;
-import cn.wanli.kindle.service.GroupService;
+import cn.wanli.kindle.entity.RoleEntity;
 import cn.wanli.kindle.service.PermissionService;
+import cn.wanli.kindle.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,34 +39,34 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
-    private GroupService groupService;
+    private RoleService roleService;
     @Autowired
     private PermissionService permissionService;
 
-    @GetMapping("/groups/{gid}")
-    @ApiOperation("获取指定的用户组")
-    public ResponseEntity getGroup(@PathVariable Long gid) {
-        return ResponseEntity.ok(groupService.getGroup(gid));
+    @GetMapping("/roles/{rid}")
+    @ApiOperation("获取指定的用户角色")
+    public ResponseEntity getRole(@PathVariable Long gid) {
+        return ResponseEntity.ok(roleService.getRole(gid));
     }
 
-    @GetMapping("/groups")
-    @ApiOperation("分页获取用户组")
-    public ResponseEntity pageGroups(@RequestParam(defaultValue = "1") int requestPage,
-                                     @RequestParam(defaultValue = "10") int pageSize,
-                                     @RequestParam String keyword) {
-        return ResponseEntity.ok(groupService.paginationGroups(requestPage, pageSize, keyword));
+    @GetMapping("/roles")
+    @ApiOperation("分页获取用户角色")
+    public ResponseEntity pageRoles(@RequestParam(defaultValue = "1") int requestPage,
+                                    @RequestParam(defaultValue = "10") int pageSize,
+                                    @RequestParam String keyword) {
+        return ResponseEntity.ok(roleService.paginationRoles(requestPage, pageSize, keyword));
     }
 
-    @PostMapping("/groups")
-    @ApiOperation("添加用户组")
-    public ResponseEntity addGroup(@RequestBody GroupEntity group) {
-        return ResponseEntity.ok(groupService.addGroup(group));
+    @PostMapping("/roles")
+    @ApiOperation("添加用户角色")
+    public ResponseEntity addRole(@RequestBody RoleEntity entity) {
+        return ResponseEntity.ok(roleService.addRole(entity));
     }
 
-    @PutMapping("/groups/{gid}")
+    @PutMapping("/roles/{rid}")
     @ApiOperation("修改指定用户组")
-    public ResponseEntity modifyGroup(@PathVariable Long gid, @RequestBody GroupEntity groupEntity) {
-        return ResponseEntity.ok(groupService.modifyGroup(gid, groupEntity));
+    public ResponseEntity modifyRole(@PathVariable Long rid, @RequestBody RoleEntity roleEntity) {
+        return ResponseEntity.ok(roleService.modifyRole(rid, roleEntity));
     }
 
     @GetMapping("/permissions")

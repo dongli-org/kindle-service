@@ -27,7 +27,7 @@ import javax.validation.constraints.NotBlank;
  * @author wanli
  * @date 2019-01-05 02:21
  */
-public class GroupEntity {
+public class RoleEntity {
     private Long id;
 
     @NotBlank
@@ -35,10 +35,10 @@ public class GroupEntity {
 
     private String desc;
 
-    public GroupEntity() {
+    public RoleEntity() {
     }
 
-    public GroupEntity(Long id, @NotBlank String name, String desc) {
+    public RoleEntity(Long id, @NotBlank String name, String desc) {
         this.id = id;
         this.name = name;
         this.desc = desc;

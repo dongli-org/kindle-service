@@ -57,8 +57,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return userOpt.map(user -> {
-            List<SimpleGrantedAuthority> auths = user.getGroups().stream()
-                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.getName()))
+            List<SimpleGrantedAuthority> auths = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                     .collect(toList());
             return new JwtUser(user.getId(), user.getName(), user.getPassword(), user.getEmail(), auths, user.getEnabled());
         }).orElseThrow(() -> new ResourceNotFoundException(String.format("查找的用户不存在: %s", username)));

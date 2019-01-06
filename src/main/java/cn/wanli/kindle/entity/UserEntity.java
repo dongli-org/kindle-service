@@ -29,7 +29,7 @@ public class UserEntity {
     private Long id;
     private String name;
     private String email;
-    private List<String> groups;
+    private List<String> roles;
     private List<String> permissions;
 
     public UserEntity() {
@@ -65,12 +65,12 @@ public class UserEntity {
         this.email = email;
     }
 
-    public List<String> getGroups() {
-        return groups;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setGroups(List<String> groups) {
-        this.groups = groups;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public List<String> getPermissions() {

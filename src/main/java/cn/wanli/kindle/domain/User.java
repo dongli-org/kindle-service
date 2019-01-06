@@ -82,7 +82,7 @@ public class User implements Serializable {
      * 用户所属组
      */
     @ManyToMany(mappedBy = "users")
-    private List<Group> groups;
+    private List<Role> roles;
 
     public User() {
     }
@@ -165,12 +165,12 @@ public class User implements Serializable {
         this.kindles = kindles;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

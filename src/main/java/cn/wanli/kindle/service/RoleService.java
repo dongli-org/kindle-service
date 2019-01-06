@@ -19,10 +19,10 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.domain.Group;
-import cn.wanli.kindle.entity.GroupEntity;
-import cn.wanli.kindle.entity.GroupUserEntity;
+import cn.wanli.kindle.domain.Role;
 import cn.wanli.kindle.entity.PaginationData;
+import cn.wanli.kindle.entity.RoleEntity;
+import cn.wanli.kindle.entity.RoleUserEntity;
 
 import java.util.Optional;
 
@@ -30,55 +30,55 @@ import java.util.Optional;
  * @author wanli
  * @date 2019-01-04 01:01
  */
-public interface GroupService {
+public interface RoleService {
     /**
-     * 保存 group
+     * 保存角色
      *
-     * @param group see {@link Group}
-     * @return 保存的Group
+     * @param role see {@link Role}
+     * @return 保存的用户角色
      */
-    Group save(Group group);
+    Role save(Role role);
 
     /**
-     * 通过Group id查找Group
+     * 通过Role id查找Role
      *
-     * @param id group id
-     * @return {@link Group} group
+     * @param id role id
+     * @return {@link Role} role
      */
-    Optional<Group> findById(Long id);
+    Optional<Role> findById(Long id);
 
     /**
-     * 添加用户组
+     * 添加用户角色
      *
-     * @param group group
+     * @param role role
      * @return 添加成功返回true, 否则返回false
      */
-    GroupEntity addGroup(GroupEntity group);
+    RoleEntity addRole(RoleEntity role);
 
     /**
-     * 分页获取所有用户组
+     * 分页获取所有用户角色
      *
      * @param requestPage 请求页
      * @param pageSize    请求
      * @param keyword     关键字
      * @return {@link PaginationData} 通用分页数据
      */
-    PaginationData<GroupEntity> paginationGroups(int requestPage, int pageSize, String keyword);
+    PaginationData<RoleEntity> paginationRoles(int requestPage, int pageSize, String keyword);
 
     /**
-     * 根据id获取指定用户组
+     * 根据id获取指定用户角色
      *
-     * @param gid 组id
-     * @return {@link GroupUserEntity} 包含用户信息的组数据
+     * @param rid 角色id
+     * @return {@link RoleUserEntity} 包含用户信息的角色数据
      */
-    GroupUserEntity getGroup(Long gid);
+    RoleUserEntity getRole(Long rid);
 
     /**
-     * 修改指定Group的信息
+     * 修改指定角色的信息
      *
-     * @param gid         group id
-     * @param groupEntity {@link GroupEntity}
-     * @return 修改后的group信息
+     * @param rid    role id
+     * @param entity {@link RoleEntity}
+     * @return 修改后的role信息
      */
-    GroupEntity modifyGroup(Long gid, GroupEntity groupEntity);
+    RoleEntity modifyRole(Long rid, RoleEntity entity);
 }
