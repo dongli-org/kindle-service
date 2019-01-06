@@ -17,15 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.service;
-
-import cn.wanli.kindle.entity.PaginationData;
-import cn.wanli.kindle.entity.RoleEntity;
+package cn.wanli.kindle.service.impl;
 
 /**
  * @author wanli
- * @date 2019-01-06 00:04
+ * @date 2019-01-06 16:06
  */
-public interface RoleService {
-    PaginationData<RoleEntity> pageRoles(int requestPage, int pageSize, String keyword);
+public class ServiceUtils {
 }

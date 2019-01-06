@@ -25,15 +25,15 @@ import com.alibaba.fastjson.JSON;
  * @author wanli
  * @date 2019-01-06 00:01
  */
-public class RoleEntity {
+public class PermissionEntity {
     private Long id;
     private String name;
     private String desc;
 
-    public RoleEntity() {
+    public PermissionEntity() {
     }
 
-    public RoleEntity(Long id, String name, String desc) {
+    public PermissionEntity(Long id, String name, String desc) {
         this.id = id;
         this.name = name;
         this.desc = desc;

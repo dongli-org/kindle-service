@@ -51,10 +51,10 @@ public class Group implements Serializable {
     private List<User> users;
 
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_group_role",
-            joinColumns = {@JoinColumn(name = "gr_group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "gr_role_id")})
-    private List<Role> roles;
+    @JoinTable(name = "tb_group_per",
+            joinColumns = {@JoinColumn(name = "gp_group_id")},
+            inverseJoinColumns = {@JoinColumn(name = "gp_per_id")})
+    private List<Permission> permissions;
 
     public Group() {
     }
@@ -96,12 +96,12 @@ public class Group implements Serializable {
         this.users = users;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<Permission> getPermissions() {
+        return permissions;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

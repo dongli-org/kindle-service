@@ -30,22 +30,30 @@ import java.util.List;
  * @date 2018-12-06 21:39
  */
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
+@Table(name = "tb_permission")
+public class Permission implements Serializable {
 
     @Id
-    @Column(name = "role_id")
+    @Column(name = "per_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name", length = 32, nullable = false)
+    @Column(name = "per_name", length = 32, nullable = false)
     private String name;
 
-    @Column(name = "role_desc", length = 64)
+    @Column(name = "per_desc", length = 64)
     private String desc;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "permissions")
     private List<Group> groups;
+
+    public Permission() {
+    }
+
+    public Permission(String name, String desc) {
+        this.name = name;
+        this.desc = desc;
+    }
 
     public Long getId() {
         return id;

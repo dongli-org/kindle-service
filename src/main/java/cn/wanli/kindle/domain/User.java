@@ -58,13 +58,13 @@ public class User implements Serializable {
      * 是否可用
      */
     @Column(name = "user_enabled", nullable = false)
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     /**
      * 是否系统推送
      */
     @Column(name = "user_sys_push")
-    private Boolean systemPush;
+    private Boolean systemPush = false;
 
     /**
      * 账户是否过期

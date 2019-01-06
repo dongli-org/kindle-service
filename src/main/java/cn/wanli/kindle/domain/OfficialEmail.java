@@ -21,10 +21,7 @@ package cn.wanli.kindle.domain;
 
 import com.alibaba.fastjson.JSON;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 平台支持的邮件提供方
@@ -37,6 +34,7 @@ import javax.persistence.Table;
 public class OfficialEmail {
     @Id
     @Column(name = "email_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "email_name", length = 32, nullable = false)

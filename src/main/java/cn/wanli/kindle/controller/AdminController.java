@@ -20,9 +20,11 @@
 package cn.wanli.kindle.controller;
 
 import cn.wanli.kindle.entity.GroupEntity;
+import cn.wanli.kindle.entity.PermissionEntity;
 import cn.wanli.kindle.service.GroupService;
-import cn.wanli.kindle.service.RoleService;
+import cn.wanli.kindle.service.PermissionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +41,16 @@ public class AdminController {
     @Autowired
     private GroupService groupService;
     @Autowired
-    private RoleService roleService;
+    private PermissionService permissionService;
 
     @GetMapping("/groups/{gid}")
+    @ApiOperation("获取指定的用户组")
     public ResponseEntity getGroup(@PathVariable Long gid) {
         return ResponseEntity.ok(groupService.getGroup(gid));
     }
 
     @GetMapping("/groups")
+    @ApiOperation("分页获取用户组")
     public ResponseEntity pageGroups(@RequestParam(defaultValue = "1") int requestPage,
                                      @RequestParam(defaultValue = "10") int pageSize,
                                      @RequestParam String keyword) {
@@ -54,20 +58,40 @@ public class AdminController {
     }
 
     @PostMapping("/groups")
+    @ApiOperation("添加用户组")
     public ResponseEntity addGroup(@RequestBody GroupEntity group) {
         return ResponseEntity.ok(groupService.addGroup(group));
     }
 
     @PutMapping("/groups/{gid}")
+    @ApiOperation("修改指定用户组")
     public ResponseEntity modifyGroup(@PathVariable Long gid, @RequestBody GroupEntity groupEntity) {
         return ResponseEntity.ok(groupService.modifyGroup(gid, groupEntity));
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity pageRoles(@RequestParam(defaultValue = "1") int requestPage,
-                                    @RequestParam(defaultValue = "10") int pageSize,
-                                    @RequestParam String keyword) {
-        return ResponseEntity.ok(roleService.pageRoles(requestPage, pageSize, keyword));
+    @GetMapping("/permissions")
+    @ApiOperation("分页获取用户权限")
+    public ResponseEntity pagePermissions(@RequestParam(defaultValue = "1") int requestPage,
+                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam String keyword) {
+        return ResponseEntity.ok(permissionService.pagePermissions(requestPage, pageSize, keyword));
+    }
 
+    @GetMapping("/permissions/{pid}")
+    @ApiOperation("获取指定权限信息")
+    public ResponseEntity getPermission(@PathVariable Long pid) {
+        return ResponseEntity.ok(permissionService.getPerEntity(pid));
+    }
+
+    @PostMapping("/permissions")
+    @ApiOperation("新增用户权限")
+    public ResponseEntity addPermission(@RequestBody PermissionEntity entity) {
+        return ResponseEntity.ok(permissionService.addPermission(entity));
+    }
+
+    @PutMapping("/permissions/{pid}")
+    @ApiOperation("修改指定用户权限")
+    public ResponseEntity modifyPermission(@PathVariable Long pid, @RequestBody PermissionEntity entity) {
+        return ResponseEntity.ok(permissionService.modifyPermission(pid, entity));
     }
 }

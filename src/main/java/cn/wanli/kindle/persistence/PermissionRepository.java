@@ -19,22 +19,32 @@
 
 package cn.wanli.kindle.persistence;
 
-import cn.wanli.kindle.domain.Role;
+import cn.wanli.kindle.domain.Permission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 /**
  * @author wanli
  * @date 2019-01-06 00:07
  */
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
     /**
-     * 分页模糊查找包含关键字用户角色
+     * 分页模糊查找包含关键字用户权限
      *
      * @param keyword  关键字
      * @param pageable 分页信息
-     * @return {@link Role} 用户角色
+     * @return {@link Permission} 用户权限
      */
-    Page<Role> findAllByNameContaining(String keyword, Pageable pageable);
+    Page<Permission> findAllByNameContaining(String keyword, Pageable pageable);
+
+    /**
+     * 根据permission name获取permission
+     *
+     * @param name permission name
+     * @return {@link Optional} permission
+     */
+    Optional<Permission> findByName(String name);
 }

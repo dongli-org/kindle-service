@@ -33,6 +33,7 @@ import java.io.Serializable;
 public class PushEmail implements Serializable {
     @Id
     @Column(name = "push_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "push_email")

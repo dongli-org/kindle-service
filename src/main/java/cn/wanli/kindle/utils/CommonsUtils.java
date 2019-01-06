@@ -19,9 +19,6 @@
 
 package cn.wanli.kindle.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author wanli
  * @date 2018-12-07 00:15

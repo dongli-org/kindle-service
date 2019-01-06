@@ -20,7 +20,7 @@
 package cn.wanli.kindle.service.impl;
 
 import cn.wanli.kindle.domain.Group;
-import cn.wanli.kindle.domain.Role;
+import cn.wanli.kindle.domain.Permission;
 import cn.wanli.kindle.entity.GroupEntity;
 import cn.wanli.kindle.entity.GroupUserEntity;
 import cn.wanli.kindle.entity.PaginationData;
@@ -102,8 +102,8 @@ public class GroupServiceImpl implements GroupService {
             entity.setUsers(group.getUsers().stream().map(user -> {
                 UserEntity userEntity = new UserEntity(user.getId(), user.getName(), user.getEmail());
                 userEntity.setGroups(user.getGroups().stream().map(Group::getName).collect(toList()));
-                userEntity.setRoles(user.getGroups().stream()
-                        .flatMap(g -> g.getRoles().stream().map(Role::getName)).distinct().collect(toList()));
+                userEntity.setPermissions(user.getGroups().stream()
+                        .flatMap(g -> g.getPermissions().stream().map(Permission::getName)).distinct().collect(toList()));
                 return userEntity;
             }).collect(toList()));
             return entity;
@@ -114,6 +114,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public GroupEntity modifyGroup(Long gid, GroupEntity groupEntity) {
+        return getGroupEntity(gid, groupEntity, groupRepository);
+    }
+
+    public static GroupEntity getGroupEntity(Long gid, GroupEntity groupEntity, GroupRepository groupRepository) {
         return groupRepository.findById(gid).map(group -> {
             group.setName(groupEntity.getName());
             group.setDesc(groupEntity.getDesc());

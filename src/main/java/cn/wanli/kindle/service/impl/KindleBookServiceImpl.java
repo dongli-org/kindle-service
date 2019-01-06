@@ -25,8 +25,6 @@ import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.persistence.KindleBookRepository;
 import cn.wanli.kindle.service.KindleBookService;
 import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,9 +41,7 @@ import static java.util.stream.Collectors.toList;
  */
 @Service
 public class KindleBookServiceImpl implements KindleBookService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(KindleBookServiceImpl.class);
-
+    
     @Autowired
     private KindleBookRepository bookRepository;
 
