@@ -70,17 +70,25 @@ public class UserServiceImpl implements UserService {
         data.setTotalSize(page.getTotalElements());
         data.setPageSize(page.getSize());
         data.setCurrentPage(requestPage);
-        data.setData(page.getContent().stream().map(user -> {
-            UserEntity entity = new UserEntity(user.getId(), user.getName(), user.getEmail());
-            entity.setRoles(user.getMidUserRoles().stream().map(MidUserRole::getRole).map(Role::getName).collect(toList()));
-            entity.setPermissions(user.getMidUserRoles().stream()
-                    .map(MidUserRole::getRole)
-                    .map(Role::getMidRolePermissions)
-                    .map(midRolePermissions -> midRolePermissions.stream().map(MidRolePermission::getPermission))
-                    .flatMap(permissionStream -> permissionStream.map(Permission::getName)).distinct().collect(toList()));
-            return entity;
-        }).collect(toList()));
+        data.setData(page.getContent().stream().map(this::user2Entity).collect(toList()));
         return data;
+    }
+
+    /**
+     * 将持久化用户转化为 entity
+     *
+     * @param user 持久化user
+     * @return {@link UserEntity}
+     */
+    private UserEntity user2Entity(User user) {
+        UserEntity entity = new UserEntity(user.getId(), user.getName(), user.getEmail());
+        entity.setRoles(user.getMidUserRoles().stream().map(MidUserRole::getRole).map(Role::getName).collect(toList()));
+        entity.setPermissions(user.getMidUserRoles().stream()
+                .map(MidUserRole::getRole)
+                .map(Role::getMidRolePermissions)
+                .map(midRolePermissions -> midRolePermissions.stream().map(MidRolePermission::getPermission))
+                .flatMap(permissionStream -> permissionStream.map(Permission::getName)).distinct().collect(toList()));
+        return entity;
     }
 
     @Override
