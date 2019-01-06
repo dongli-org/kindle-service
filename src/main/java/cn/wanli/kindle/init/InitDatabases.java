@@ -19,12 +19,8 @@
 
 package cn.wanli.kindle.init;
 
-import cn.wanli.kindle.domain.Permission;
-import cn.wanli.kindle.domain.Role;
-import cn.wanli.kindle.domain.User;
-import cn.wanli.kindle.persistence.PermissionRepository;
-import cn.wanli.kindle.persistence.RoleRepository;
-import cn.wanli.kindle.persistence.UserRepository;
+import cn.wanli.kindle.domain.*;
+import cn.wanli.kindle.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +29,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -56,6 +49,10 @@ public class InitDatabases implements CommandLineRunner {
     private RoleRepository roleRepository;
     @Autowired
     private PermissionRepository permissionRepository;
+    @Autowired
+    private MidRolePermissionRepository midRolePermissionRepository;
+    @Autowired
+    private MidUserRoleRepository midUserRoleRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -72,19 +69,22 @@ public class InitDatabases implements CommandLineRunner {
             user.setSystemPush(true);
             User userSave = userRepository.save(user);
             LOGGER.info("----- 初始化用户表完成-----");
-            List<Role> roles = new ArrayList<>();
-            roles.add(new Role("ADMIN", "超级管理员"));
-            roles.add(new Role("USER", "普通用户"));
-            List<Role> roleSave = roleRepository.saveAll(roles);
 
-            userSave.setRoles(roleSave);
+            Role roleAdmin = roleRepository.save(new Role("ADMIN", "超级管理员"));
+            Role roleUser = roleRepository.save(new Role("USER", "普通用户"));
+
+            midUserRoleRepository.save(new MidUserRole(userSave, roleAdmin));
+            midUserRoleRepository.save(new MidUserRole(userSave, roleUser));
 
             LOGGER.info("----- 初始化用户组完成 -----");
-            List<Permission> permissions = new ArrayList<>();
-            permissions.add(new Permission("addUser", "新增用户"));
-            permissions.add(new Permission("delUser", "删除用户"));
-            List<Permission> perSave = permissionRepository.saveAll(permissions);
-            roleSave.get(0).setPermissions(perSave);
+
+            Permission pAddUser = permissionRepository.save(new Permission("addUser", "新增用户"));
+            Permission pDelUser = permissionRepository.save(new Permission("delUser", "删除用户"));
+
+            midRolePermissionRepository.save(new MidRolePermission(roleAdmin, pAddUser));
+            midRolePermissionRepository.save(new MidRolePermission(roleAdmin, pDelUser));
+
+
             LOGGER.info("----- 初始化用户权限完成 ---");
         }
     }

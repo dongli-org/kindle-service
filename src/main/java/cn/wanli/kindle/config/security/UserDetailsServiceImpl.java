@@ -19,6 +19,7 @@
 
 package cn.wanli.kindle.config.security;
 
+import cn.wanli.kindle.domain.MidUserRole;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.exception.ResourceNotFoundException;
 import cn.wanli.kindle.persistence.UserRepository;
@@ -57,7 +58,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return userOpt.map(user -> {
-            List<SimpleGrantedAuthority> auths = user.getRoles().stream()
+            List<SimpleGrantedAuthority> auths = user.getMidUserRoles().stream()
+                    .map(MidUserRole::getRole)
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                     .collect(toList());
             return new JwtUser(user.getId(), user.getName(), user.getPassword(), user.getEmail(), auths, user.getEnabled());

@@ -81,4 +81,40 @@ public interface RoleService {
      * @return 修改后的role信息
      */
     RoleEntity modifyRole(Long rid, RoleEntity entity);
+
+    /**
+     * 为用户添加角色
+     *
+     * @param rid 角色id
+     * @param uid 用户id
+     * @return 修改成功true 否则false
+     */
+    Boolean addUser2Role(Long rid, Long uid);
+
+    /**
+     * 移除用户角色
+     *
+     * @param rid 角色ID
+     * @param uid 用户ID
+     * @return 移除用户角色成功true 失败false
+     */
+    Boolean delUserInRole(Long rid, Long uid);
+
+    /**
+     * 为用户角色分配权限
+     *
+     * @param rid 角色id
+     * @param pid 权限id
+     * @return 分配成功返回true, 失败false
+     */
+    Boolean addPer2Role(Long rid, Long pid);
+
+    /**
+     * 移除角色权限
+     *
+     * @param rid 角色id
+     * @param pid 权限id
+     * @return 移除成功返回true 否则false
+     */
+    Boolean delPerInRole(Long rid, Long pid);
 }

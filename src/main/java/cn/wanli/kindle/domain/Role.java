@@ -44,17 +44,11 @@ public class Role implements Serializable {
     @Column(name = "role_desc", length = 64)
     private String desc;
 
-    @ManyToMany
-    @JoinTable(name = "tb_user_role",
-            joinColumns = {@JoinColumn(name = "ur_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ur_user_id")})
-    private List<User> users;
+    @OneToMany(mappedBy = "role")
+    private List<MidUserRole> midUserRoles;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "tb_role_per",
-            joinColumns = {@JoinColumn(name = "rp_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "rp_per_id")})
-    private List<Permission> permissions;
+    @OneToMany(mappedBy = "role")
+    private List<MidRolePermission> midRolePermissions;
 
     public Role() {
     }
@@ -88,20 +82,20 @@ public class Role implements Serializable {
         this.desc = desc;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<MidUserRole> getMidUserRoles() {
+        return midUserRoles;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setMidUserRoles(List<MidUserRole> midUserRoles) {
+        this.midUserRoles = midUserRoles;
     }
 
-    public List<Permission> getPermissions() {
-        return permissions;
+    public List<MidRolePermission> getMidRolePermissions() {
+        return midRolePermissions;
     }
 
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
+    public void setMidRolePermissions(List<MidRolePermission> midRolePermissions) {
+        this.midRolePermissions = midRolePermissions;
     }
 
     @Override

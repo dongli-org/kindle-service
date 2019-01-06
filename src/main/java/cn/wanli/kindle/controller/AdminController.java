@@ -38,10 +38,14 @@ import org.springframework.web.bind.annotation.*;
 @Api("管理员相关操作")
 public class AdminController {
 
+    private final RoleService roleService;
+    private final PermissionService permissionService;
+
     @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PermissionService permissionService;
+    public AdminController(RoleService roleService, PermissionService permissionService) {
+        this.roleService = roleService;
+        this.permissionService = permissionService;
+    }
 
     @GetMapping("/roles/{rid}")
     @ApiOperation("获取指定的用户角色")
@@ -64,9 +68,33 @@ public class AdminController {
     }
 
     @PutMapping("/roles/{rid}")
-    @ApiOperation("修改指定用户组")
+    @ApiOperation("修改指定用户角色")
     public ResponseEntity modifyRole(@PathVariable Long rid, @RequestBody RoleEntity roleEntity) {
         return ResponseEntity.ok(roleService.modifyRole(rid, roleEntity));
+    }
+
+    @PostMapping("/roles/{rid}/users/{uid}")
+    @ApiOperation("将指定用户添加到指定组")
+    public ResponseEntity addUser2Role(@PathVariable Long rid, @PathVariable Long uid) {
+        return ResponseEntity.ok(roleService.addUser2Role(rid, uid));
+    }
+
+    @DeleteMapping("/roles/{rid}/users/{uid}")
+    @ApiOperation("将用户从用户组删除")
+    public ResponseEntity delUserInRole(@PathVariable Long rid, @PathVariable Long uid) {
+        return ResponseEntity.ok(roleService.delUserInRole(rid, uid));
+    }
+
+    @PostMapping("/roles/{rid}/permissions/{pid}")
+    @ApiOperation("为用户角色分配权限")
+    public ResponseEntity addPer2Role(@PathVariable Long rid, @PathVariable Long pid) {
+        return ResponseEntity.ok(roleService.addPer2Role(rid, pid));
+    }
+
+    @DeleteMapping("/roles/{rid}/permissions/{pid}")
+    @ApiOperation("移除角色权限")
+    public ResponseEntity delPerInRole(@PathVariable Long rid, @PathVariable Long pid) {
+        return ResponseEntity.ok(roleService.delPerInRole(rid, pid));
     }
 
     @GetMapping("/permissions")
@@ -94,4 +122,6 @@ public class AdminController {
     public ResponseEntity modifyPermission(@PathVariable Long pid, @RequestBody PermissionEntity entity) {
         return ResponseEntity.ok(permissionService.modifyPermission(pid, entity));
     }
+
+
 }

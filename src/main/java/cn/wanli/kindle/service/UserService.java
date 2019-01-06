@@ -24,6 +24,7 @@ import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author wanli
@@ -36,6 +37,14 @@ public interface UserService {
      * @return 所有用户集合
      */
     List<User> findAll();
+
+    /**
+     * 通过用户Id查找用户
+     *
+     * @param uid 用户ID
+     * @return User
+     */
+    Optional<User> findById(Long uid);
 
     /**
      * 用户注册

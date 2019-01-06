@@ -23,36 +23,42 @@ import com.alibaba.fastjson.JSON;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * @author wanli
- * @date 2018-12-06 21:39
+ * @date 2019-01-06 20:52
  */
 @Entity
-@Table(name = "tb_permission")
-public class Permission implements Serializable {
-
+@Table(name = "tb_mid_user_role")
+public class MidUserRole implements Serializable {
     @Id
-    @Column(name = "per_id")
+    @Column(name = "ur_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "per_name", length = 32, nullable = false)
-    private String name;
+    @Column(name = "ur_time")
+    private LocalDateTime dateTime;
 
-    @Column(name = "per_desc", length = 64)
-    private String desc;
+    @Column(name = "ur_deleted")
+    private Boolean deleted;
 
-    @OneToMany(mappedBy = "permission")
-    private List<MidRolePermission> midRolePermissions;
+    @ManyToOne
+    @JoinColumn(name = "ur_user_id", referencedColumnName = "user_id")
+    private User user;
 
-    public Permission() {
+    @ManyToOne
+    @JoinColumn(name = "ur_role_id", referencedColumnName = "role_id")
+    private Role role;
+
+    public MidUserRole() {
     }
 
-    public Permission(String name, String desc) {
-        this.name = name;
-        this.desc = desc;
+    public MidUserRole(User user, Role role) {
+        this.user = user;
+        this.role = role;
+        this.setDateTime(LocalDateTime.now());
+        this.setDeleted(false);
     }
 
     public Long getId() {
@@ -63,28 +69,36 @@ public class Permission implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public String getDesc() {
-        return desc;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
-    public List<MidRolePermission> getMidRolePermissions() {
-        return midRolePermissions;
+    public User getUser() {
+        return user;
     }
 
-    public void setMidRolePermissions(List<MidRolePermission> midRolePermissions) {
-        this.midRolePermissions = midRolePermissions;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

@@ -79,13 +79,10 @@ public class User implements Serializable {
     private List<Kindle> kindles;
 
     /**
-     * 用户所属组
+     * 用户和角色中间表
      */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "tb_user_role",
-            joinColumns = {@JoinColumn(name = "ur_user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ur_role_id")})
-    private List<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private List<MidUserRole> midUserRoles;
 
     public User() {
     }
@@ -168,12 +165,12 @@ public class User implements Serializable {
         this.kindles = kindles;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<MidUserRole> getMidUserRoles() {
+        return midUserRoles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setMidUserRoles(List<MidUserRole> midUserRoles) {
+        this.midUserRoles = midUserRoles;
     }
 
     @Override
