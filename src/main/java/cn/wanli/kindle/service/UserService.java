@@ -20,8 +20,10 @@
 package cn.wanli.kindle.service;
 
 import cn.wanli.kindle.domain.User;
+import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +39,16 @@ public interface UserService {
      * @return 所有用户集合
      */
     List<User> findAll();
+
+    /**
+     * 分页获取用户信息
+     *
+     * @param requestPage 请求页数
+     * @param pageSize    每页数量
+     * @param keyword     关键字
+     * @return PaginationData
+     */
+    PaginationData<UserEntity> pageUsers(int requestPage, int pageSize, String keyword);
 
     /**
      * 通过用户Id查找用户
@@ -78,4 +90,6 @@ public interface UserService {
      * @return 修改成功返回true否则返回false
      */
     boolean modifyPassword(Long id, PasswordEntity entity);
+
+
 }

@@ -19,18 +19,26 @@
 
 package cn.wanli.kindle.service.impl;
 
-import cn.wanli.kindle.domain.User;
+import cn.wanli.kindle.domain.*;
+import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserEntity;
 import cn.wanli.kindle.persistence.UserRepository;
 import cn.wanli.kindle.service.UserService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author wanli
@@ -47,6 +55,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public PaginationData<UserEntity> pageUsers(int requestPage, int pageSize, String keyword) {
+        PaginationData<UserEntity> data = new PaginationData<>();
+        Page<User> page;
+        if (Strings.isBlank(keyword)) {
+            page = userRepository.findAll(PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
+        } else {
+            page = userRepository.findAllByNameContaining(keyword,
+                    PageRequest.of(requestPage - 1, pageSize, Sort.by("id").ascending()));
+        }
+        data.setTotalSize(page.getTotalElements());
+        data.setPageSize(page.getSize());
+        data.setCurrentPage(requestPage);
+        data.setData(page.getContent().stream().map(user -> {
+            UserEntity entity = new UserEntity(user.getId(), user.getName(), user.getEmail());
+            entity.setRoles(user.getMidUserRoles().stream().map(MidUserRole::getRole).map(Role::getName).collect(toList()));
+            entity.setPermissions(user.getMidUserRoles().stream()
+                    .map(MidUserRole::getRole)
+                    .map(Role::getMidRolePermissions)
+                    .map(midRolePermissions -> midRolePermissions.stream().map(MidRolePermission::getPermission))
+                    .flatMap(permissionStream -> permissionStream.map(Permission::getName)).distinct().collect(toList()));
+            return entity;
+        }).collect(toList()));
+        return data;
     }
 
     @Override

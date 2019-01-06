@@ -42,7 +42,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 import static cn.wanli.kindle.config.KindleConstant.BEARER;
 
@@ -73,9 +72,10 @@ public class UserController {
 
     @GetMapping
     @ApiOperation(value = "获取所有用户", response = ResponseEntity.class)
-    public ResponseEntity<List<User>> users() {
-        List<User> all = userService.findAll();
-        return all.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(all);
+    public ResponseEntity users(@RequestParam(defaultValue = "1") int requestPage,
+                                @RequestParam(defaultValue = "10") int pageSize,
+                                @RequestParam String keyword) {
+        return ResponseEntity.ok(userService.pageUsers(requestPage, pageSize, keyword));
     }
 
     @PostMapping

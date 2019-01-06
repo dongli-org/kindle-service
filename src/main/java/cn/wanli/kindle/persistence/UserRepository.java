@@ -20,6 +20,8 @@
 package cn.wanli.kindle.persistence;
 
 import cn.wanli.kindle.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -45,5 +47,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return {@link User}
      */
     Optional<User> findByName(String name);
+
+    /**
+     * 根据关键字分页查找用户
+     *
+     * @param keyword  关键字
+     * @param pageable 分页信息
+     * @return {@link Page } User
+     */
+    Page<User> findAllByNameContaining(String keyword, Pageable pageable);
 
 }
