@@ -19,7 +19,7 @@
 
 package cn.wanli.kindle.service;
 
-import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserSimpleEntity;
 import cn.wanli.kindle.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,7 @@ public class UserServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback(false)
     public void saveUser() {
-        UserDTO user = new UserDTO();
+        UserSimpleEntity user = new UserSimpleEntity();
         user.setName("wanli");
         user.setPassword("123456");
         user.setEmail("wanlinus@qq.com");

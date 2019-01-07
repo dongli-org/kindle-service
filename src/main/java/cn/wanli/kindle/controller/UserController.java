@@ -24,7 +24,7 @@ import cn.wanli.kindle.config.security.JwtTokenUtil;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.entity.AuthorizationUser;
 import cn.wanli.kindle.entity.PasswordEntity;
-import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserSimpleEntity;
 import cn.wanli.kindle.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -80,9 +80,9 @@ public class UserController {
 
     @PostMapping
     @ApiOperation("用户注册")
-    @ApiImplicitParam(name = "dto", value = "注册用户的基本信息", dataTypeClass = UserDTO.class)
-    public ResponseEntity<User> registerUser(UserDTO dto) {
-        User user = userService.registerUser(dto);
+    @ApiImplicitParam(name = "entity", value = "注册用户的基本信息", dataTypeClass = UserSimpleEntity.class)
+    public ResponseEntity<User> registerUser(UserSimpleEntity entity) {
+        User user = userService.registerUser(entity);
         return user == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(user);
     }
 
@@ -106,11 +106,11 @@ public class UserController {
 
     @PutMapping
     @ApiOperation("修改账号信息")
-    @ApiImplicitParam(name = "dto", value = "用户修改信息", dataTypeClass = UserDTO.class)
-    public ResponseEntity modifyAccount(@RequestBody UserDTO dto, HttpServletRequest request) {
+    @ApiImplicitParam(name = "entity", value = "用户修改信息", dataTypeClass = UserSimpleEntity.class)
+    public ResponseEntity modifyAccount(@RequestBody UserSimpleEntity entity, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
-        userService.modifyAccount(id, dto);
+        userService.modifyAccount(id, entity);
         return ResponseEntity.ok().build();
     }
 

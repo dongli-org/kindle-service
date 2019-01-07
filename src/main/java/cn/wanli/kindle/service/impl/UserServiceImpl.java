@@ -22,7 +22,7 @@ package cn.wanli.kindle.service.impl;
 import cn.wanli.kindle.domain.*;
 import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.entity.PasswordEntity;
-import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserSimpleEntity;
 import cn.wanli.kindle.entity.UserEntity;
 import cn.wanli.kindle.persistence.UserRepository;
 import cn.wanli.kindle.service.UserService;
@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public User registerUser(UserDTO dto) {
-        User user = new User(dto.getName(), passwordEncoder.encode(dto.getPassword()), dto.getEmail());
+    public User registerUser(UserSimpleEntity entity) {
+        User user = new User(entity.getName(), passwordEncoder.encode(entity.getPassword()), entity.getEmail());
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         return userRepository.save(user);
@@ -107,10 +107,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void modifyAccount(Long id, UserDTO dto) {
+    public void modifyAccount(Long id, UserSimpleEntity entity) {
         userRepository.findById(id).ifPresent(user -> {
-            user.setEmail(dto.getEmail());
-            user.setName(dto.getName());
+            user.setEmail(entity.getEmail());
+            user.setName(entity.getName());
         });
     }
 

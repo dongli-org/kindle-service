@@ -22,7 +22,7 @@ package cn.wanli.kindle.service;
 import cn.wanli.kindle.domain.User;
 import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.entity.PasswordEntity;
-import cn.wanli.kindle.entity.UserDTO;
+import cn.wanli.kindle.entity.UserSimpleEntity;
 import cn.wanli.kindle.entity.UserEntity;
 
 import java.util.List;
@@ -61,18 +61,18 @@ public interface UserService {
     /**
      * 用户注册
      *
-     * @param dto 用户注册数据传输对象
+     * @param entity 用户注册数据传输对象
      * @return 注册成功后的用户信息
      */
-    User registerUser(UserDTO dto);
+    User registerUser(UserSimpleEntity entity);
 
     /**
      * 修改用户信息
      *
      * @param id  用户ID
-     * @param dto 包含用户信息的数据传输对象
+     * @param entity 包含用户信息的数据传输对象
      */
-    void modifyAccount(Long id, UserDTO dto);
+    void modifyAccount(Long id, UserSimpleEntity entity);
 
     /**
      * 修改用户昵称

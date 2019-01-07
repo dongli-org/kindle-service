@@ -19,6 +19,7 @@
 
 package cn.wanli.kindle.entity;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -30,8 +31,8 @@ import java.io.Serializable;
  * @author wanli
  * @date 2018-12-06 23:22
  */
-@ApiModel(value = "UserDTO", description = "用户数据传输对象")
-public class UserDTO implements Serializable {
+@ApiModel(value = "UserSimpleEntity", description = "用户数据传输对象")
+public class UserSimpleEntity implements Serializable {
     @ApiModelProperty("用户ID")
     private String id;
     @ApiModelProperty(value = "用户姓名", example = "wanli")
@@ -75,11 +76,6 @@ public class UserDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return JSON.toJSONString(this);
     }
 }
