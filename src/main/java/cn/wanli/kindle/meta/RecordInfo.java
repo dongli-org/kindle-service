@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * @author wanli
+ */
 public class RecordInfo {
     private byte[] recordDataOffset = {0, 0, 0, 0};
     private byte recordAttributes = 0;
@@ -35,8 +38,7 @@ public class RecordInfo {
         StreamUtils.readByteArray(in, uniqueID);
 
         if (MobiCommon.debug) {
-            MobiCommon.logMessage("RecordInfo uniqueID: "
-                    + StreamUtils.byteArrayToInt(uniqueID));
+            MobiCommon.logMessage("RecordInfo uniqueID: " + StreamUtils.byteArrayToInt(uniqueID));
         }
     }
 

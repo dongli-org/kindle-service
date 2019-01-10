@@ -25,6 +25,9 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author wanli
+ */
 public class MobiHeader {
     private byte[] compression = {0, 0};
     private byte[] unused0 = {0, 0};
@@ -34,7 +37,8 @@ public class MobiHeader {
     private byte[] encryptionType = {0, 0};
     private byte[] unused1 = {0, 0};
     private byte[] identifier = {0, 0, 0, 0};
-    private byte[] headerLength = {0, 0, 0, 0};    // from offset 0x10
+    // from offset 0x10
+    private byte[] headerLength = {0, 0, 0, 0};
     private byte[] mobiType = {0, 0, 0, 0};
     private byte[] textEncoding = {0, 0, 0, 0};
     private byte[] uniqueID = {0, 0, 0, 0};
@@ -220,12 +224,16 @@ public class MobiHeader {
         // then this must end in a 4-byte boundary
         //
         int padding = (len + 2) % 4;
-        if (padding != 0) padding = 4 - padding;
+        if (padding != 0) {
+            padding = 4 - padding;
+        }
         padding += 2;
 
         byte[] buffer = new byte[len + padding];
         System.arraycopy(fullBytes, 0, buffer, 0, len);
-        for (int i = len; i < buffer.length; i++) buffer[i] = 0;
+        for (int i = len; i < buffer.length; i++) {
+            buffer[i] = 0;
+        }
 
         fullName = buffer;
     }
@@ -265,10 +273,11 @@ public class MobiHeader {
             exthHeader = null;
             StreamUtils.intToByteArray(flag, exthFlags);
         } else {
-            if (exthHeader == null)
+            if (exthHeader == null) {
                 exthHeader = new EXTHHeader(list);
-            else
+            } else {
                 exthHeader.setRecordList(list);
+            }
 
             StreamUtils.intToByteArray(flag | 0x40, exthFlags);
         }
@@ -336,32 +345,33 @@ public class MobiHeader {
 
     public String getMobiType() {
         long type = StreamUtils.byteArrayToLong(mobiType);
-        if (type == 2)
+        if (type == 2) {
             return "Mobipocket Book";
-        else if (type == 3)
+        } else if (type == 3) {
             return "PalmDoc Book";
-        else if (type == 4)
+        } else if (type == 4) {
             return "Audio";
-        else if (type == 257)
+        } else if (type == 257) {
             return "News";
-        else if (type == 258)
+        } else if (type == 258) {
             return "News Feed";
-        else if (type == 259)
+        } else if (type == 259) {
             return "News Magazine";
-        else if (type == 513)
+        } else if (type == 513) {
             return "PICS";
-        else if (type == 514)
+        } else if (type == 514) {
             return "WORD";
-        else if (type == 515)
+        } else if (type == 515) {
             return "XLS";
-        else if (type == 516)
+        } else if (type == 516) {
             return "PPT";
-        else if (type == 517)
+        } else if (type == 517) {
             return "TEXT";
-        else if (type == 518)
+        } else if (type == 518) {
             return "HTML";
-        else
+        } else {
             return "Unknown (" + type + ")";
+        }
     }
 
     public long getUniqueID() {
@@ -486,7 +496,9 @@ public class MobiHeader {
         out.write(huffmanTableLength);
         out.write(exthFlags);
         out.write(restOfMobiHeader);
-        if (exthHeader != null) exthHeader.write(out);
+        if (exthHeader != null) {
+            exthHeader.write(out);
+        }
         out.write(remainder);
     }
 }

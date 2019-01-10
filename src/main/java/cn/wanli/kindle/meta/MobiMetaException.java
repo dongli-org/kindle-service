@@ -19,6 +19,9 @@
 
 package cn.wanli.kindle.meta;
 
+/**
+ * @author wanli
+ */
 public class MobiMetaException extends Exception {
     /**
      *

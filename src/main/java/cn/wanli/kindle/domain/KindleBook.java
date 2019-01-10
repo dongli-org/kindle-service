@@ -37,10 +37,22 @@ public class KindleBook implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "book_name")
-    private String name;
+    @Column(name = "book_title", length = 64)
+    private String title;
 
-    @Column(name = "book_pic")
+    @Column(name = "book_authors")
+    private String authors;
+
+    @Column(name = "book_asin")
+    private String asin;
+
+    @Column(name = "book_publisher", length = 64)
+    private String publisher;
+
+    @Column(name = "book_price", length = 32)
+    private String price;
+
+    @Column(name = "book_pic_path")
     private String picture;
 
     @Column(name = "book_path")
@@ -61,12 +73,44 @@ public class KindleBook implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
+    public String getAsin() {
+        return asin;
+    }
+
+    public void setAsin(String asin) {
+        this.asin = asin;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getPicture() {

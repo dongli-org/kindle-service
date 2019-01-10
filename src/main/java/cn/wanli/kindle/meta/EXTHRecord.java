@@ -19,23 +19,32 @@
 
 package cn.wanli.kindle.meta;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * @author wanli
+ */
 public class EXTHRecord {
-    // if a type exists in booleanTypes, then it is assumed to have boolean
-    // values
-    // if a type exists in knownTypes but not in booleanTypes, then it is
-    // assumed to have string values
-    public final static int[] booleanTypes =
-            {404};
-    public final static int[] knownTypes =
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EXTHRecord.class);
+    /**
+     * if a type exists in booleanTypes, then it is assumed to have boolean
+     * values
+     * if a type exists in knownTypes but not in booleanTypes, then it is
+     * assumed to have string values
+     */
+    private static final int[] BOOLEAN_TYPES = {404};
+    private static final int[] KNOWN_TYPES =
             {100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113,
                     114, 118, 119, 200, 404, 501, 503, 504};
-    public final static String[] knownDesc =
+    private static final String[] KNOWN_DESC =
             {"author", "publisher", "imprint", "description", "ISBN", "subject",
                     "publishing date", "review", "contributor", "rights",
                     "subject code", "type", "source", "ASIN", "version number",
@@ -49,25 +58,27 @@ public class EXTHRecord {
     private byte[] recordData = null;
 
     static {
-        typeHash = new HashMap<Integer, String>(knownTypes.length);
-        for (int i = 0; i < knownTypes.length; i++)
-            typeHash.put(Integer.valueOf(knownTypes[i]), knownDesc[i]);
+        typeHash = new HashMap<>(KNOWN_TYPES.length);
+        for (int i = 0; i < KNOWN_TYPES.length; i++) {
+            typeHash.put(KNOWN_TYPES[i], KNOWN_DESC[i]);
+        }
 
-        booleanTypesSet = new HashSet<Integer>(booleanTypes.length);
-        for (int i = 0; i < booleanTypes.length; i++)
-            booleanTypesSet.add(Integer.valueOf(booleanTypes[i]));
+        booleanTypesSet = new HashSet<>(BOOLEAN_TYPES.length);
+        for (int i : BOOLEAN_TYPES) {
+            booleanTypesSet.add(i);
+        }
     }
 
     public static boolean isBooleanType(int type) {
-        return booleanTypesSet.contains(Integer.valueOf(type));
+        return booleanTypesSet.contains(type);
     }
 
     public static boolean isKnownType(int type) {
-        return typeHash.containsKey(Integer.valueOf(type));
+        return typeHash.containsKey(type);
     }
 
     public static String getDescriptionForType(int type) {
-        return typeHash.get(Integer.valueOf(type));
+        return typeHash.get(type);
     }
 
     public EXTHRecord(int recType, String data, String characterEncoding) {
@@ -98,14 +109,16 @@ public class EXTHRecord {
         StreamUtils.readByteArray(in, recordLength);
 
         int len = StreamUtils.byteArrayToInt(recordLength);
-        if (len < 8) throw new IOException("Invalid EXTH record length");
+        if (len < 8) {
+            throw new IOException("Invalid EXTH record length");
+        }
 
         recordData = new byte[len - 8];
         StreamUtils.readByteArray(in, recordData);
 
         if (MobiCommon.debug) {
             int recType = StreamUtils.byteArrayToInt(recordType);
-            System.out.print("EXTH record type: ");
+            LOGGER.info("EXTH record type: ");
             switch (recType) {
                 case 100:
                     MobiCommon.logMessage("author");

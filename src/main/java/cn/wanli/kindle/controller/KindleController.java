@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author wanli
@@ -46,7 +47,7 @@ public class KindleController {
 
     @PostMapping
     @ApiOperation("添加图书资源")
-    public ResponseEntity addKindleSource() {
-        return null;
+    public ResponseEntity addKindleSource(@RequestParam Long uid, @RequestParam("source") MultipartFile source) {
+        return ResponseEntity.ok(bookService.addBook(uid, source));
     }
 }

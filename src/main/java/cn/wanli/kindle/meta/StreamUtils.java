@@ -23,7 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-public class StreamUtils {
+/**
+ * @author wanli
+ */
+public final class StreamUtils {
+    private StreamUtils() {
+        throw new AssertionError();
+    }
+
     public static String readCString(InputStream in, int len)
             throws IOException {
         byte[] buffer = new byte[len];
@@ -32,10 +39,11 @@ public class StreamUtils {
 
         while (bytesLeft > 0) {
             int bytesRead = in.read(buffer, offset, bytesLeft);
-            if (bytesRead == -1)
+            if (bytesRead == -1) {
                 throw new IOException("Supposed to read a "
                         + len
                         + " byte C string, but could not");
+            }
             offset += bytesRead;
             bytesLeft -= bytesRead;
         }
@@ -48,8 +56,9 @@ public class StreamUtils {
     public static byte readByte(InputStream in)
             throws IOException {
         int b = in.read();
-        if (b == -1)
+        if (b == -1) {
             throw new IOException("Supposed to read a byte, but could not");
+        }
         MobiCommon.logMessage("readByte: " + b);
         return (byte) (b & 0xff);
     }
@@ -62,10 +71,11 @@ public class StreamUtils {
 
         while (bytesLeft > 0) {
             int bytesRead = in.read(buffer, offset, bytesLeft);
-            if (bytesRead == -1)
+            if (bytesRead == -1) {
                 throw new IOException("Supposed to read a "
                         + len
                         + " byte array, but could not");
+            }
             offset += bytesRead;
             bytesLeft -= bytesRead;
         }
@@ -92,26 +102,27 @@ public class StreamUtils {
 
         if (encoding != null) {
             try {
-                if (zeroIndex == -1)
+                if (zeroIndex == -1) {
                     return new String(buffer, encoding);
-                else
+                } else {
                     return new String(buffer, 0, zeroIndex, encoding);
+                }
             } catch (UnsupportedEncodingException e) {
                 // let it fall through and use the default encoding
             }
         }
 
-        if (zeroIndex == -1)
+        if (zeroIndex == -1) {
             return new String(buffer);
-        else
+        } else {
             return new String(buffer, 0, zeroIndex);
+        }
     }
 
     public static int byteArrayToInt(byte[] buffer) {
         int total = 0;
-        int len = buffer.length;
-        for (int i = 0; i < len; i++) {
-            total = (total << 8) + (buffer[i] & 0xff);
+        for (byte aBuffer : buffer) {
+            total = (total << 8) + (aBuffer & 0xff);
         }
 
         return total;
@@ -119,9 +130,8 @@ public class StreamUtils {
 
     public static long byteArrayToLong(byte[] buffer) {
         long total = 0;
-        int len = buffer.length;
-        for (int i = 0; i < len; i++) {
-            total = (total << 8) + (buffer[i] & 0xff);
+        for (byte aBuffer : buffer) {
+            total = (total << 8) + (aBuffer & 0xff);
         }
 
         return total;
@@ -160,11 +170,13 @@ public class StreamUtils {
     }
 
     public static String dumpByteArray(byte[] buffer) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         int len = buffer.length;
         for (int i = 0; i < len; i++) {
-            if (i > 0) sb.append(", ");
+            if (i > 0) {
+                sb.append(", ");
+            }
             sb.append(buffer[i] & 0xff);
         }
         sb.append(" }");

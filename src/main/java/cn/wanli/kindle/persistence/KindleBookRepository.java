@@ -37,5 +37,5 @@ public interface KindleBookRepository extends JpaRepository<KindleBook, Long> {
      * @param pageable 分页信息
      * @return 分页列表
      */
-    Page<KindleBook> findAllByNameContaining(String name, Pageable pageable);
+    Page<KindleBook> findAllByTitleContaining(String name, Pageable pageable);
 }

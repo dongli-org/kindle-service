@@ -25,6 +25,9 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author wanli
+ */
 public class PDBHeader {
     private byte[] name = {0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
@@ -66,7 +69,7 @@ public class PDBHeader {
 
         int recordCount = StreamUtils.byteArrayToInt(numRecords);
         MobiCommon.logMessage("numRecords: " + recordCount);
-        recordInfoList = new LinkedList<RecordInfo>();
+        recordInfoList = new LinkedList<>();
         for (int i = 0; i < recordCount; i++) {
             recordInfoList.add(new RecordInfo(in));
         }
@@ -112,7 +115,9 @@ public class PDBHeader {
         out.write(uniqueIDSeed);
         out.write(nextRecordListID);
         out.write(numRecords);
-        for (RecordInfo rec : recordInfoList) rec.write(out);
+        for (RecordInfo rec : recordInfoList) {
+            rec.write(out);
+        }
         out.write(gapToData);
     }
 

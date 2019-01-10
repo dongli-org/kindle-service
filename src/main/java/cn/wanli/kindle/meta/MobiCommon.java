@@ -19,7 +19,16 @@
 
 package cn.wanli.kindle.meta;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * @author wanli
+ */
 public class MobiCommon {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MobiCommon.class);
+
     public static boolean debug = false;
 
     // safe mode avoids changing the size of the mobi header
@@ -27,6 +36,8 @@ public class MobiCommon {
     public static boolean safeMode = false;
 
     public static void logMessage(String message) {
-        if (debug) System.out.println(message);
+        if (debug) {
+            LOGGER.info(message);
+        }
     }
 }

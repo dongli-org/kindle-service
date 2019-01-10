@@ -19,8 +19,10 @@
 
 package cn.wanli.kindle.service;
 
+import cn.wanli.kindle.entity.BookEntity;
 import cn.wanli.kindle.entity.KindleBookEntity;
 import cn.wanli.kindle.entity.PaginationData;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author wanli
@@ -38,4 +40,12 @@ public interface KindleBookService {
      */
     PaginationData<KindleBookEntity> pageBooks(int requestPage, int pageSize, String keyword);
 
+    /**
+     * 添加图书
+     *
+     * @param uid    User id
+     * @param source 图书资源
+     * @return BookEntity
+     */
+    BookEntity addBook(Long uid, MultipartFile source);
 }

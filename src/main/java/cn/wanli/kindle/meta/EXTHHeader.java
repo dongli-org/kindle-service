@@ -25,6 +25,9 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author wanli
+ */
 public class EXTHHeader {
     private byte[] identifier = {69, 88, 84, 72};
     private byte[] headerLength = {0, 0, 0, 0};
@@ -32,7 +35,7 @@ public class EXTHHeader {
     private List<EXTHRecord> recordList = null;
 
     public EXTHHeader() {
-        recordList = new LinkedList<EXTHRecord>();
+        recordList = new LinkedList<>();
     }
 
     public EXTHHeader(List<EXTHRecord> list) {
@@ -43,15 +46,8 @@ public class EXTHHeader {
         MobiCommon.logMessage("*** EXTHHeader ***");
 
         StreamUtils.readByteArray(in, identifier);
-        if ((identifier[0] != 69)
-                ||
-                (identifier[1] != 88)
-                ||
-                (identifier[2] != 84)
-                ||
-                (identifier[3] != 72)) {
-            throw new IOException("Expected to find EXTH header identifier"
-                    + " EXTH but got something else instead");
+        if ((identifier[0] != 69) || (identifier[1] != 88) || (identifier[2] != 84) || (identifier[3] != 72)) {
+            throw new IOException("Expected to find EXTH header identifier EXTH but got something else instead");
         }
 
         StreamUtils.readByteArray(in, headerLength);
@@ -65,14 +61,16 @@ public class EXTHHeader {
         int count = StreamUtils.byteArrayToInt(recordCount);
         MobiCommon.logMessage("EXTH record count: " + count);
 
-        recordList = new LinkedList<EXTHRecord>();
+        recordList = new LinkedList<>();
         for (int i = 0; i < count; i++) {
             recordList.add(new EXTHRecord(in));
         }
 
         int padding = paddingSize(dataSize());
         MobiCommon.logMessage("padding size: " + padding);
-        for (int i = 0; i < padding; i++) StreamUtils.readByte(in);
+        for (int i = 0; i < padding; i++) {
+            StreamUtils.readByte(in);
+        }
     }
 
     public int size() {
@@ -95,7 +93,7 @@ public class EXTHHeader {
     }
 
     public void setRecordList(List<EXTHRecord> list) {
-        recordList = new LinkedList<EXTHRecord>();
+        recordList = new LinkedList<>();
         if (list != null) {
             for (EXTHRecord rec : list) {
                 recordList.add(rec.copy());
@@ -113,12 +111,16 @@ public class EXTHHeader {
             }
         }
 
-        if (changed) recomputeFields();
+        if (changed) {
+            recomputeFields();
+        }
     }
 
     public boolean recordsWithTypeExist(int type) {
         for (EXTHRecord rec : recordList) {
-            if (rec.getRecordType() == type) return true;
+            if (rec.getRecordType() == type) {
+                return true;
+            }
         }
         return false;
     }
@@ -134,7 +136,9 @@ public class EXTHHeader {
             }
         }
 
-        if (changed) recomputeFields();
+        if (changed) {
+            recomputeFields();
+        }
     }
 
     public void addRecord(int recType, String s, String encoding) {
@@ -160,7 +164,9 @@ public class EXTHHeader {
 
     protected int paddingSize(int dataSize) {
         int paddingSize = dataSize % 4;
-        if (paddingSize != 0) paddingSize = 4 - paddingSize;
+        if (paddingSize != 0) {
+            paddingSize = 4 - paddingSize;
+        }
 
         return paddingSize;
     }
@@ -173,6 +179,8 @@ public class EXTHHeader {
             rec.write(out);
         }
         int padding = paddingSize(dataSize());
-        for (int i = 0; i < padding; i++) out.write(0);
+        for (int i = 0; i < padding; i++) {
+            out.write(0);
+        }
     }
 }

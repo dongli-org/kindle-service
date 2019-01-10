@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author wanli
+ */
 public class MobiMeta {
     public final static int BUFFER_SIZE = 4096;
 
@@ -38,23 +41,14 @@ public class MobiMeta {
 
     public MobiMeta(File f) throws MobiMetaException {
         inputFile = f;
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(f);
+        try (FileInputStream in = new FileInputStream(f)) {
+
             pdbHeader = new PDBHeader(in);
             mobiHeader = new MobiHeader(in, pdbHeader.getMobiHeaderSize());
             exthRecords = mobiHeader.getEXTHRecords();
             characterEncoding = mobiHeader.getCharacterEncoding();
         } catch (IOException e) {
-            throw new MobiMetaException("Could not parse mobi file "
-                    + f.getAbsolutePath()
-                    + ": "
-                    + e.getMessage());
-        } finally {
-            if (in != null) try {
-                in.close();
-            } catch (IOException e) {
-            }
+            throw new MobiMetaException("Could not parse mobi file " + f.getAbsolutePath() + ": " + e.getMessage());
         }
     }
 
@@ -70,34 +64,20 @@ public class MobiMeta {
             pdbHeader.adjustOffsetsAfterMobiHeader(mobiHeader.size());
         }
 
-        FileInputStream in = null;
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(outputFile);
+        try (FileInputStream in = new FileInputStream(inputFile);
+             FileOutputStream out = new FileOutputStream(outputFile)) {
             pdbHeader.write(out);
             mobiHeader.write(out);
 
             int bytesRead;
             byte[] buffer = new byte[BUFFER_SIZE];
-            in = new FileInputStream(inputFile);
             in.skip(readOffset);
             while ((bytesRead = in.read(buffer)) != -1) {
                 out.write(buffer, 0, bytesRead);
             }
         } catch (IOException e) {
-            throw new MobiMetaException(
-                    "Problems encountered while writing to "
-                            + outputFile.getAbsolutePath() + ": "
-                            + e.getMessage());
-        } finally {
-            if (in != null) try {
-                in.close();
-            } catch (IOException e) {
-            }
-            if (out != null) try {
-                out.close();
-            } catch (IOException e) {
-            }
+            throw new MobiMetaException("Problems encountered while writing to " + outputFile.getAbsolutePath() + ": "
+                    + e.getMessage());
         }
     }
 
@@ -140,7 +120,7 @@ public class MobiMeta {
     }
 
     public String getMetaInfo() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("PDB Header\r\n");
         sb.append("----------\r\n");
         sb.append("Name: ");
@@ -150,7 +130,9 @@ public class MobiMeta {
         if (attributes.length > 0) {
             sb.append("Attributes: ");
             for (int i = 0; i < attributes.length; i++) {
-                if (i > 0) sb.append(", ");
+                if (i > 0) {
+                    sb.append(", ");
+                }
                 sb.append(attributes[i]);
             }
             sb.append("\r\n");
@@ -288,8 +270,9 @@ public class MobiMeta {
 
         String[] ret = new String[list.size()];
         int index = 0;
-        for (String s : list) ret[index++] = s;
-
+        for (String s : list) {
+            ret[index++] = s;
+        }
         return ret;
     }
 }
