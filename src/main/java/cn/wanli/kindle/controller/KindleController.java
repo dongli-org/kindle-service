@@ -19,14 +19,11 @@
 
 package cn.wanli.kindle.controller;
 
-import cn.wanli.kindle.entity.KindleBookEntity;
-import cn.wanli.kindle.entity.PaginationData;
 import cn.wanli.kindle.service.KindleBookService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wanli
@@ -40,10 +37,16 @@ public class KindleController {
     private KindleBookService bookService;
 
     @GetMapping
-    public PaginationData<KindleBookEntity> pageKindleSource(@RequestParam(defaultValue = "1") int requestPage,
-                                                             @RequestParam(defaultValue = "10") int pageSize,
-                                                             @RequestParam String keyword) {
-        return bookService.pageBooks(requestPage, pageSize, keyword);
+    @ApiOperation("分页获取Kindle图书资源")
+    public ResponseEntity pageKindleSource(@RequestParam(defaultValue = "1") int requestPage,
+                                           @RequestParam(defaultValue = "10") int pageSize,
+                                           @RequestParam String keyword) {
+        return ResponseEntity.ok(bookService.pageBooks(requestPage, pageSize, keyword));
     }
 
+    @PostMapping
+    @ApiOperation("添加图书资源")
+    public ResponseEntity addKindleSource() {
+        return null;
+    }
 }

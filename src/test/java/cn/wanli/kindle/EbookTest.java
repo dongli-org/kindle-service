@@ -17,21 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.wanli.kindle.controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package cn.wanli.kindle;
 
 /**
  * @author wanli
- * @date 2018-12-06 23:04
+ * @date 2019-01-07 23:30
  */
-@RestController
-@RequestMapping
-public class HomeController {
-    @GetMapping("/")
-    public String home() {
-        return "home page";
+public class EbookTest {
+    public static void main(String[] args) {
+        String filename = "性学三论与爱情心理学.azw3";
+
+
     }
 }

@@ -27,7 +27,6 @@ import cn.wanli.kindle.entity.PasswordEntity;
 import cn.wanli.kindle.entity.UserSimpleEntity;
 import cn.wanli.kindle.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +72,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "获取所有用户", response = ResponseEntity.class)
+    @ApiOperation("获取所有用户")
     public ResponseEntity users(@RequestParam(defaultValue = "1") int requestPage,
                                 @RequestParam(defaultValue = "10") int pageSize,
                                 @RequestParam String keyword) {
@@ -82,15 +81,13 @@ public class UserController {
 
     @PostMapping
     @ApiOperation("用户注册")
-    @ApiImplicitParam(name = "entity", value = "注册用户的基本信息", dataTypeClass = UserSimpleEntity.class)
-    public ResponseEntity<User> registerUser(UserSimpleEntity entity) {
+    public ResponseEntity<User> registerUser(@RequestBody UserSimpleEntity entity) {
         User user = userService.registerUser(entity);
         return user == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
     @ApiOperation("用户登陆")
-    @ApiImplicitParam(name = "user", value = "用户登陆认证信息", dataTypeClass = AuthorizationUser.class)
     public ResponseEntity login(@RequestBody AuthorizationUser user, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldErrors());
@@ -108,7 +105,6 @@ public class UserController {
 
     @PutMapping
     @ApiOperation("修改账号信息")
-    @ApiImplicitParam(name = "entity", value = "用户修改信息", dataTypeClass = UserSimpleEntity.class)
     public ResponseEntity modifyAccount(@RequestBody UserSimpleEntity entity, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
@@ -118,7 +114,6 @@ public class UserController {
 
     @PutMapping("nickname")
     @ApiOperation("修改用户昵称")
-    @ApiImplicitParam(name = "nickname")
     public ResponseEntity modifyNickname(String nickname, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));
@@ -128,7 +123,6 @@ public class UserController {
 
     @PutMapping("password")
     @ApiOperation("修改密码")
-    @ApiImplicitParam(name = "entity", value = "新旧密码", dataTypeClass = PasswordEntity.class)
     public ResponseEntity<Boolean> modifyPassword(@RequestBody PasswordEntity entity, HttpServletRequest request) {
         String authHeader = request.getHeader(KindleConstant.AUTHORIZATION);
         Long id = util.getUserIdFromToken(authHeader.substring(7));

@@ -36,8 +36,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/v1/admin")
-@Api("管理员相关操作")
 @PreAuthorize("hasRole('ADMIN')")
+@Api("管理员相关操作, 必须拥有管理员权限")
 public class AdminController {
 
     private final RoleService roleService;
